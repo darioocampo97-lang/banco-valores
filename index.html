@@ -138,10 +138,10 @@ td.y{color:var(--ok);font-weight:700}td.n{color:#c9c3b3}
 .cf,.cb{width:85.6mm;height:54mm;position:relative;overflow:hidden;color:#fff;background-color:#14151c;background-size:108% auto;background-position:center;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif}
 .cf .shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.66) 0,rgba(0,0,0,.3) 46%,rgba(0,0,0,0) 70%),linear-gradient(0deg,rgba(0,0,0,.6) 0,rgba(0,0,0,0) 44%)}
 .cb .shade{position:absolute;inset:0;background:rgba(0,0,0,.38)}
-.cf .bank{position:absolute;left:5.2mm;top:4.2mm;font-family:var(--px);font-size:7mm;line-height:1;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;color:#ececec;isolation:isolate}
-.cf .bank:before,.cf .bank:after{content:attr(data-t);position:absolute;left:0;white-space:nowrap}
-.cf .bank:before{top:.6mm;color:#8a8a8a;z-index:-1}
-.cf .bank:after{top:1.25mm;color:#101010;z-index:-2}
+.cf .ttl{position:absolute;left:5.2mm;top:4.2mm;font-family:var(--px);font-size:7mm;line-height:1;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
+.cf .ttl span{position:absolute;left:0;top:0}.cf .ttl .l2{top:1.25mm;color:#101010}.cf .ttl .l1{top:.6mm;color:#8a8a8a}.cf .ttl .l0{position:relative;color:#ececec}
+.cf .ttl:before{top:.6mm;color:#8a8a8a;z-index:-1}
+.cf .ttl:after{top:1.25mm;color:#101010;z-index:-2}
 .cf .grp{position:absolute;left:5.4mm;top:13.6mm;font-family:var(--px);font-size:3.5mm;letter-spacing:.22em;color:#ffd966}
 .cf .chip{position:absolute;left:5.6mm;top:19.4mm;width:11.4mm;height:8.8mm;border-radius:1.7mm;background:linear-gradient(135deg,#f9e79a 0,#c79a1e 52%,#f4dc7c 100%);box-shadow:inset 0 0 0 .25mm #8a6510,.25mm .35mm .7mm rgba(0,0,0,.55)}
 .cf .chip:before{content:"";position:absolute;left:0;right:0;top:31%;bottom:31%;border-top:.22mm solid #8a6510;border-bottom:.22mm solid #8a6510}
@@ -166,7 +166,7 @@ td.y{color:var(--ok);font-weight:700}td.n{color:#c9c3b3}
 .cb .cap{position:absolute;right:4.6mm;top:41.2mm;width:23mm;text-align:center;font-size:1.7mm;letter-spacing:.12em;color:#ececec}
 .cb .brand{font-size:4.2mm;bottom:3.4mm}.cb .brand i{font-size:4.4mm}
 @media screen{.cf{border-radius:3.2mm 0 0 3.2mm}.cb{border-radius:0 3.2mm 3.2mm 0}}
-@media print{body>*:not(#app){display:none!important}.cards{position:static;padding:0;overflow:visible}.cards .tools{display:none}@page{margin:10mm}}
+@media print{.cf *,.cb *{text-shadow:none!important}.cf .wave{filter:none}.cf .chip{box-shadow:inset 0 0 0 .25mm #8a6510}body>*:not(#app){display:none!important}.cards{position:static;padding:0;overflow:visible}.cards .tools{display:none}@page{margin:10mm}}
 /* Tablero TV */
 .tv,.tv button{font-family:var(--px);letter-spacing:.02em;font-synthesis:none}
 .tv *{border-radius:0}
@@ -475,13 +475,13 @@ function vCards() {
   lista.forEach(function (x) {
     var s = x.s, num = ('4AM0' + x.n + String(s.codigo).toUpperCase()).replace(/(.{4})/g, '$1 ').trim();
     h += '<div class="unit">' +
-      '<div class="cf" style="background-image:url(' + ARTE + x.art + '.jpg)"><div class="shade"></div>' +
-      '<div class="bank" data-t="' + esc(banco) + '">' + esc(banco) + '</div><div class="grp">4AM · ÉTOILES</div><div class="chip"></div>' +
+      '<div class="cf" style="background-image:linear-gradient(90deg,rgba(0,0,0,.66) 0,rgba(0,0,0,.3) 46%,rgba(0,0,0,0) 70%),linear-gradient(0deg,rgba(0,0,0,.6) 0,rgba(0,0,0,0) 44%),url(' + ARTE + x.art + '.jpg);background-size:auto,auto,108% auto">' +
+      '<div class="ttl"><span class="l2">' + esc(banco) + '</span><span class="l1">' + esc(banco) + '</span><span class="l0">' + esc(banco) + '</span></div><div class="grp">4AM · ÉTOILES</div><div class="chip"></div>' +
       '<svg class="wave" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round"><path d="M6 8.5a6 6 0 0 1 0 7"/><path d="M10.5 6a10 10 0 0 1 0 12"/><path d="M15 3.5a14 14 0 0 1 0 17"/></svg>' +
       '<div class="num">' + esc(num) + '</div>' +
       '<div class="meta"><div><span>MIEMBRO DESDE</span><b>2026</b></div><div><span>VÁLIDA HASTA</span><b>12/27</b></div></div>' +
       '<div class="name" style="font-size:' + (s.nombre.length > 24 ? 3 : s.nombre.length > 21 ? 3.3 : 3.7) + 'mm">' + esc(s.nombre) + '</div><div class="brand"><i>★</i>étoile</div></div>' +
-      '<div class="cb" style="background-image:url(' + ARTE + 'reverso.jpg)"><div class="shade"></div><div class="stripe"></div>' +
+      '<div class="cb" style="background-image:linear-gradient(rgba(0,0,0,.38),rgba(0,0,0,.38)),url(' + ARTE + 'reverso.jpg);background-size:auto,108% auto"><div class="stripe"></div>' +
       '<div class="lab">FIRMA DEL TITULAR</div><div class="sig"></div><div class="cvv">0' + x.n + '</div>' +
       '<div class="txt">Esta tarjeta es personal. Acércala al celular o escanea el código para ver tu cuenta de ' + esc(T.cfg.moneda) + '. Cuídala: reponerla cuesta ' + T.cfg.reposicion + ' ' + esc(T.cfg.moneda) + '. Si la encuentras, entrégala en 4AM.</div>' +
       '<div class="bk">' + esc(banco) + '</div><div class="qr">' + qrSvg(urlDe(s)) + '</div><div class="cap">ESCANÉAME</div><div class="brand"><i>★</i>étoile</div></div></div>';
