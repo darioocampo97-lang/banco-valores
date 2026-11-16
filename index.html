@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Jersey+15&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jersey+15&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <title>Banco de Valores 4AM</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -128,17 +128,44 @@ td.y{color:var(--ok);font-weight:700}td.n{color:#c9c3b3}
 .scan .res b{display:block;font-size:21px;margin-bottom:2px}
 .scan .res.ok{background:var(--ok)}.scan .res.dup{background:var(--warn)}.scan .res.err{background:var(--bad)}
 /* Tarjetas para imprimir */
-.cards{position:fixed;inset:0;z-index:18;background:#fff;overflow:auto;padding:10mm}
+.cards{position:fixed;inset:0;z-index:18;background:#fff;overflow:auto;padding:8mm}
 .cards .tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:8mm}
 .cards .tools span{color:#555;font-size:13px}
-.cards .sheet2{display:grid;grid-template-columns:repeat(2,85.6mm);gap:4mm;justify-content:center}
-.cardp{width:85.6mm;height:54mm;border:.3mm dashed #888;display:flex;flex-direction:column;overflow:hidden;break-inside:avoid;page-break-inside:avoid;font-family:var(--px);letter-spacing:.02em;color:#fff;background:linear-gradient(#3f8fe0,#8fc6ff);-webkit-print-color-adjust:exact;print-color-adjust:exact}
-.cardp .hd{background:linear-gradient(var(--grass) 0 62%,var(--dirt) 62%);padding:1.8mm 3mm 3.2mm;font-size:5.2mm;text-shadow:.4mm .4mm 0 rgba(0,0,0,.5);border-bottom:.7mm solid var(--dirt2)}
-.cardp .bd{flex:1;display:flex;align-items:center;gap:3mm;padding:2mm 3mm;min-height:0}
-.cardp .nm{flex:1;min-width:0;font-size:6.4mm;line-height:1.02;text-shadow:.4mm .4mm 0 rgba(0,0,0,.55)}
-.cardp .nm small{display:block;font-size:3.7mm;margin-top:1.6mm}
-.cardp .qr{width:31mm;height:31mm;background:#fff;padding:1.6mm;flex:none;border:.7mm solid #14151c}
-.cardp .qr svg{width:100%;height:100%;display:block}
+.cards .sheet2{display:flex;flex-direction:column;align-items:center;gap:7mm}
+.unit{display:flex;width:171.2mm;height:54mm;position:relative;break-inside:avoid;page-break-inside:avoid;outline:.2mm dashed #9a9a9a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.unit:before,.unit:after{content:"";position:absolute;left:50%;height:3mm;border-left:.25mm solid #555}
+.unit:before{top:-3.6mm}.unit:after{bottom:-3.6mm}
+.cf,.cb{width:85.6mm;height:54mm;position:relative;overflow:hidden;color:#fff;background-color:#14151c;background-size:108% auto;background-position:center;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif}
+.cf .shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.66) 0,rgba(0,0,0,.3) 46%,rgba(0,0,0,0) 70%),linear-gradient(0deg,rgba(0,0,0,.6) 0,rgba(0,0,0,0) 44%)}
+.cb .shade{position:absolute;inset:0;background:rgba(0,0,0,.38)}
+.cf .bank{position:absolute;left:5.2mm;top:4.2mm;font-family:var(--px);font-size:7mm;line-height:1;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;color:#ececec;isolation:isolate}
+.cf .bank:before,.cf .bank:after{content:attr(data-t);position:absolute;left:0;white-space:nowrap}
+.cf .bank:before{top:.6mm;color:#8a8a8a;z-index:-1}
+.cf .bank:after{top:1.25mm;color:#101010;z-index:-2}
+.cf .grp{position:absolute;left:5.4mm;top:13.6mm;font-family:var(--px);font-size:3.5mm;letter-spacing:.22em;color:#ffd966}
+.cf .chip{position:absolute;left:5.6mm;top:19.4mm;width:11.4mm;height:8.8mm;border-radius:1.7mm;background:linear-gradient(135deg,#f9e79a 0,#c79a1e 52%,#f4dc7c 100%);box-shadow:inset 0 0 0 .25mm #8a6510,.25mm .35mm .7mm rgba(0,0,0,.55)}
+.cf .chip:before{content:"";position:absolute;left:0;right:0;top:31%;bottom:31%;border-top:.22mm solid #8a6510;border-bottom:.22mm solid #8a6510}
+.cf .chip:after{content:"";position:absolute;top:0;bottom:0;left:32%;right:32%;border-left:.22mm solid #8a6510;border-right:.22mm solid #8a6510;border-radius:1.1mm;background:linear-gradient(135deg,#f4dc7c,#d2a428)}
+.cf .wave{position:absolute;left:19.4mm;top:20.6mm;width:6.4mm;height:6.4mm;filter:drop-shadow(.2mm .3mm .3mm rgba(0,0,0,.7))}
+.cf .num,.cf .name,.cf .meta b{font-family:"Share Tech Mono",ui-monospace,"SF Mono",Menlo,monospace;color:#f2f2f2;text-shadow:0 -.14mm 0 rgba(255,255,255,.55),0 .34mm .25mm rgba(0,0,0,.9)}
+.cf .num{position:absolute;left:5.6mm;top:31.4mm;font-size:5.3mm;letter-spacing:.05em;word-spacing:1.3mm;white-space:nowrap}
+.cf .meta{position:absolute;left:5.6mm;top:39mm;display:flex;gap:6mm}
+.cf .meta span{display:block;font-size:1.55mm;letter-spacing:.1em;color:#e0e0e0;text-shadow:0 .2mm .2mm rgba(0,0,0,.9)}
+.cf .meta b{display:block;font-size:3.1mm;font-weight:400;margin-top:.3mm}
+.cf .name{position:absolute;left:5.6mm;bottom:4.3mm;font-size:3.7mm;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
+.brand{position:absolute;right:4.6mm;bottom:3.8mm;display:flex;align-items:center;gap:1mm;font-style:italic;font-weight:800;font-size:5.4mm;line-height:1;letter-spacing:-.02em;color:#fff;text-shadow:.25mm .35mm .5mm rgba(0,0,0,.85)}
+.brand i{font-style:normal;color:#f5b301;font-size:5.6mm}
+.cb .stripe{position:absolute;left:0;right:0;top:5mm;height:10mm;background:#08080a}
+.cb .lab{position:absolute;left:5mm;top:17.2mm;font-size:1.55mm;letter-spacing:.1em;color:#dcdcdc}
+.cb .sig{position:absolute;left:5mm;top:19.6mm;width:44mm;height:8mm;border-radius:.6mm;background:repeating-linear-gradient(0deg,#f6f3e8 0 .8mm,#e3ddc8 .8mm 1mm)}
+.cb .cvv{position:absolute;left:50.4mm;top:19.6mm;width:8.6mm;height:8mm;border-radius:.6mm;background:#fff;color:#14151c;display:grid;place-items:center;font-family:"Share Tech Mono",ui-monospace,Menlo,monospace;font-style:italic;font-size:3.5mm}
+.cb .txt{position:absolute;left:5mm;top:30.4mm;width:53mm;font-size:1.95mm;line-height:1.38;color:#ececec;text-shadow:0 .2mm .2mm rgba(0,0,0,.9)}
+.cb .bk{position:absolute;left:5mm;bottom:4mm;font-family:var(--px);font-size:3.6mm;letter-spacing:.06em;text-transform:uppercase;color:#e4e4e4}
+.cb .qr{position:absolute;right:4.6mm;top:17.4mm;width:23mm;height:23mm;background:#fff;padding:1.2mm;border-radius:.8mm}
+.cb .qr svg{width:100%;height:100%;display:block}
+.cb .cap{position:absolute;right:4.6mm;top:41.2mm;width:23mm;text-align:center;font-size:1.7mm;letter-spacing:.12em;color:#ececec}
+.cb .brand{font-size:4.2mm;bottom:3.4mm}.cb .brand i{font-size:4.4mm}
+@media screen{.cf{border-radius:3.2mm 0 0 3.2mm}.cb{border-radius:0 3.2mm 3.2mm 0}}
 @media print{body>*:not(#app){display:none!important}.cards{position:static;padding:0;overflow:visible}.cards .tools{display:none}@page{margin:10mm}}
 /* Tablero TV */
 .tv,.tv button{font-family:var(--px);letter-spacing:.02em;font-synthesis:none}
@@ -432,13 +459,32 @@ function loadScript(u) {
 }
 function urlDe(s) { return (window.BV_STATIC ? location.origin + location.pathname : (S.T.url || (location.origin + location.pathname))) + '?t=' + s.codigo; }
 function qrSvg(text) { var q = qrcode(0, 'M'); q.addData(text); q.make(); return q.createSvgTag({ cellSize: 4, margin: 0, scalable: true }); }
+var ARTE = window.BV_ARTE || (window.BV_STATIC ? 'arte-' : 'https://darioocampo97-lang.github.io/banco-valores/arte-');
+var ART = ['bosque', 'mina', 'oceano', 'desierto', 'nieve', 'cueva'];
+var ART_DE = { E04: 'pablo' };   // tarjetas personalizadas: id del estudiante -> imagen
 function vCards() {
-  var T = S.T;
-  var h = '<div class="cards"><div class="tools"><button class="pri" style="width:auto" data-a="print">Imprimir</button><button class="sec" data-a="tab" data-t="mas">Volver</button>' +
-    '<span>Tamaño real 8,56 × 5,4 cm. Imprime al 100 %, sin ajustar a la página, y activa los gráficos de fondo.</span></div><div class="sheet2">';
-  T.estudiantes.forEach(function (s) {
-    h += '<div class="cardp"><div class="hd">★ ' + esc(T.cfg.banco) + '</div><div class="bd"><div class="nm">' + esc(s.nombre) +
-      '<small>Mi cuenta de ' + esc(T.cfg.moneda) + '</small></div><div class="qr">' + qrSvg(urlDe(s)) + '</div></div></div>';
+  var T = S.T, k = 0, lista = T.estudiantes.map(function (s, i) {
+    return { s: s, n: ('0' + (i + 1)).slice(-2), art: ART_DE[s.id] || ART[(k++) % ART.length] };
+  });
+  if (S.cardsTest) lista = lista.filter(function (x) { return ART_DE[x.s.id]; }).concat(lista.filter(function (x) { return !ART_DE[x.s.id]; }).slice(0, 2));
+  var banco = String(T.cfg.banco).replace(/\s*4AM\s*$/i, '');
+  var h = '<div class="cards"><div class="tools"><button class="pri" style="width:auto" data-a="print">Imprimir</button>' +
+    '<button class="sec" data-a="cardsTest">' + (S.cardsTest ? 'Ver las ' + T.estudiantes.length : 'Solo 3 de prueba') + '</button>' +
+    '<button class="sec" data-a="tab" data-t="mas">Volver</button>' +
+    '<span>Imprime al 100 %, con gráficos de fondo. Recorta el rectángulo, dobla por las marcas del centro, pega el adhesivo NFC por dentro y plastifica.</span></div><div class="sheet2">';
+  lista.forEach(function (x) {
+    var s = x.s, num = ('4AM0' + x.n + String(s.codigo).toUpperCase()).replace(/(.{4})/g, '$1 ').trim();
+    h += '<div class="unit">' +
+      '<div class="cf" style="background-image:url(' + ARTE + x.art + '.jpg)"><div class="shade"></div>' +
+      '<div class="bank" data-t="' + esc(banco) + '">' + esc(banco) + '</div><div class="grp">4AM · ÉTOILES</div><div class="chip"></div>' +
+      '<svg class="wave" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round"><path d="M6 8.5a6 6 0 0 1 0 7"/><path d="M10.5 6a10 10 0 0 1 0 12"/><path d="M15 3.5a14 14 0 0 1 0 17"/></svg>' +
+      '<div class="num">' + esc(num) + '</div>' +
+      '<div class="meta"><div><span>MIEMBRO DESDE</span><b>2026</b></div><div><span>VÁLIDA HASTA</span><b>12/27</b></div></div>' +
+      '<div class="name" style="font-size:' + (s.nombre.length > 24 ? 3 : s.nombre.length > 21 ? 3.3 : 3.7) + 'mm">' + esc(s.nombre) + '</div><div class="brand"><i>★</i>étoile</div></div>' +
+      '<div class="cb" style="background-image:url(' + ARTE + 'reverso.jpg)"><div class="shade"></div><div class="stripe"></div>' +
+      '<div class="lab">FIRMA DEL TITULAR</div><div class="sig"></div><div class="cvv">0' + x.n + '</div>' +
+      '<div class="txt">Esta tarjeta es personal. Acércala al celular o escanea el código para ver tu cuenta de ' + esc(T.cfg.moneda) + '. Cuídala: reponerla cuesta ' + T.cfg.reposicion + ' ' + esc(T.cfg.moneda) + '. Si la encuentras, entrégala en 4AM.</div>' +
+      '<div class="bk">' + esc(banco) + '</div><div class="qr">' + qrSvg(urlDe(s)) + '</div><div class="cap">ESCANÉAME</div><div class="brand"><i>★</i>étoile</div></div></div>';
   });
   return h + '</div></div>';
 }
@@ -624,6 +670,7 @@ var A = {
   scanMa: function () { ls('bv_ma', ls('bv_ma') === '1' ? null : '1'); render(); },
   cards: function () { busy(true); loadScript(LIB_QR).then(function () { busy(false); S.tab = 'cards'; S.cur = null; render(); window.scrollTo(0, 0); }).catch(fail); },
   print: function () { window.print(); },
+  cardsTest: function () { S.cardsTest = !S.cardsTest; render(); },
   tab: function (d) { scanStop(); S.tab = d.t; S.cur = null; if (d.t === 'tablero') $('toast').className = ''; render(); window.scrollTo(0, 0); },
   open: function (d) { S.cur = d.id; render(); window.scrollTo(0, 0); },
   back: function () { scanStop(); S.cur = null; S.tab = 'grupo'; render(); },
