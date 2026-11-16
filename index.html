@@ -33,7 +33,9 @@ button{cursor:pointer;border:0;background:none}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin:0 0 14px}
 .h{font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--mut);margin:0 0 10px}
 .bank{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;border:0;position:relative;overflow:hidden}
-.bank:after{content:"★";position:absolute;right:-18px;bottom:-56px;font-size:190px;color:rgba(245,179,1,.14)}
+.bank:after{content:"";position:absolute;right:-26px;bottom:-40px;width:170px;height:170px;opacity:.16;background:url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3E%3Cpath d=%27M12 2 22 7 12 12 2 7z%27 fill=%27%23ffe27a%27/%3E%3Cpath d=%27M2 7 12 12v10L2 17z%27 fill=%27%23d9a514%27/%3E%3Cpath d=%27M22 7 12 12v10l10-5z%27 fill=%27%23a87b0a%27/%3E%3C/svg%3E") center/contain no-repeat}
+.ic{width:1.05em;height:1.05em;display:inline-block;vertical-align:-.16em;flex:none;object-fit:contain}
+.logo .ic{width:70%;height:70%}
 .bank .who{font-size:22px;font-weight:700;margin:0 0 2px}
 .bank .lab{font-size:12px;color:#b9c3dd;text-transform:uppercase;letter-spacing:.06em}
 .bank .big{font-size:54px;font-weight:800;line-height:1;margin:10px 0 2px;color:var(--gold2)}
@@ -154,23 +156,23 @@ td.y{color:var(--ok);font-weight:700}td.n{color:#c9c3b3}
 .cf .meta b{display:block;font-size:3.1mm;font-weight:400;margin-top:.3mm}
 .cf .name{position:absolute;left:5.6mm;bottom:4.3mm;font-size:3.7mm;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
 .brand{position:absolute;right:4.6mm;bottom:3.8mm;display:flex;align-items:center;gap:1mm;font-style:italic;font-weight:800;font-size:5.4mm;line-height:1;letter-spacing:-.02em;color:#fff;text-shadow:.25mm .35mm .5mm rgba(0,0,0,.85)}
-.brand i{font-style:normal;color:#f5b301;font-size:5.6mm}
+.brand .cube{width:5.6mm;height:5.6mm;flex:none;filter:drop-shadow(.2mm .3mm .3mm rgba(0,0,0,.7))}
 .cb .stripe{position:absolute;left:0;right:0;top:5mm;height:10mm;background:#08080a}
 .cb .lab{position:absolute;left:5mm;top:17.2mm;font-size:1.55mm;letter-spacing:.1em;color:#dcdcdc}
 .cb .sig{position:absolute;left:5mm;top:19.6mm;width:44mm;height:8mm;border-radius:.6mm;background:repeating-linear-gradient(0deg,#f6f3e8 0 .8mm,#e3ddc8 .8mm 1mm)}
 .cb .cvv{position:absolute;left:50.4mm;top:19.6mm;width:8.6mm;height:8mm;border-radius:.6mm;background:#fff;color:#14151c;display:grid;place-items:center;font-family:"Share Tech Mono",ui-monospace,Menlo,monospace;font-style:italic;font-size:3.5mm}
-.cb .txt{position:absolute;left:5mm;top:30.4mm;width:53mm;font-size:1.95mm;line-height:1.38;color:#ececec;text-shadow:0 .2mm .2mm rgba(0,0,0,.9)}
+.cb .txt{position:absolute;left:5mm;top:31.4mm;width:53mm;font-size:3mm;font-weight:600;line-height:1.38;color:#ececec;text-shadow:0 .2mm .2mm rgba(0,0,0,.9)}
 .cb .bk{position:absolute;left:5mm;bottom:4mm;font-family:var(--px);font-size:3.6mm;letter-spacing:.06em;text-transform:uppercase;color:#e4e4e4}
 .cb .qr{position:absolute;right:4.6mm;top:17.4mm;width:23mm;height:23mm;background:#fff;padding:1.2mm;border-radius:.8mm}
 .cb .qr svg{width:100%;height:100%;display:block}
 .cb .cap{position:absolute;right:4.6mm;top:41.2mm;width:23mm;text-align:center;font-size:1.7mm;letter-spacing:.12em;color:#ececec}
-.cb .brand{font-size:4.2mm;bottom:3.4mm}.cb .brand i{font-size:4.4mm}
+.cb .brand{font-size:4.2mm;bottom:3.4mm}.cb .brand .cube{width:4.6mm;height:4.6mm}
 @media screen{.cf{border-radius:3.2mm 0 0 3.2mm}.cb{border-radius:0 3.2mm 3.2mm 0}}
-@media print{.cf *,.cb *{text-shadow:none!important}.cf .wave{filter:none}.cf .chip{box-shadow:inset 0 0 0 .25mm #8a6510}body>*:not(#app){display:none!important}.cards{position:static;padding:0;overflow:visible}.cards .tools{display:none}@page{margin:10mm}}
+@media print{.cf *,.cb *{text-shadow:none!important}.cf .wave,.brand .cube{filter:none}.cf .chip{box-shadow:inset 0 0 0 .25mm #8a6510}body>*:not(#app){display:none!important}.cards{position:static;padding:0;overflow:visible}.cards .tools{display:none}@page{margin:10mm}}
 /* Tablero TV */
 .tv,.tv button{font-family:var(--px);letter-spacing:.02em;font-synthesis:none}
 .tv *{border-radius:0}
-.tv{position:fixed;inset:0;z-index:15;color:#fff;display:grid;grid-template-columns:38fr 62fr;grid-template-rows:auto 1fr auto;gap:2vh 3vw;padding:3vh 3vw 2.2vh;overflow:hidden;text-shadow:.18vw .18vw 0 rgba(0,0,0,.55);background:linear-gradient(to top,var(--dirt2) 0 2vh,var(--dirt) 2vh 12.5vh,var(--grass) 12.5vh 16vh,transparent 16vh),linear-gradient(#3f8fe0,#8fc6ff 80%)}
+.tv{position:fixed;inset:0;z-index:15;color:#fff;display:grid;grid-template-columns:38fr 62fr;grid-template-rows:auto 1fr auto;gap:2vh 3vw;padding:3vh 3vw 2.2vh;overflow:hidden;text-shadow:.18vw .18vw 0 rgba(0,0,0,.55);background:linear-gradient(rgba(10,14,30,.35),rgba(10,14,30,.35)),url(arte-tablero.jpg) center/cover no-repeat,linear-gradient(to top,var(--dirt2) 0 2vh,var(--dirt) 2vh 12.5vh,var(--grass) 12.5vh 16vh,transparent 16vh),linear-gradient(#3f8fe0,#8fc6ff 80%)}
 .tv .tt{grid-column:1/3;display:flex;align-items:center;gap:1.2vw}
 .tv .tt h1{margin:0;font-size:3.6vw;font-weight:700}
 .tv .tt .star{color:var(--gold);font-size:3.8vw}
@@ -199,7 +201,7 @@ td.y{color:var(--ok);font-weight:700}td.n{color:#c9c3b3}
 </head>
 <body>
 <div id="busy"></div>
-<div id="app"><div class="center"><div class="logo">★</div><p>Cargando…</p></div></div>
+<div id="app"><div class="center"><div class="logo"><img class="ic" src="bloque.png" alt=""></div><p>Cargando…</p></div></div>
 <div id="modal"></div>
 <div id="toast"></div>
 <script>
@@ -228,6 +230,9 @@ window.API_URL = 'https://script.google.com/macros/s/AKfycbwqXzvrwHKxA_nrVfoTgg8
 <script>
 var S = { code: '', token: '', pub: null, T: null, tab: 'grupo', cur: null, sel: {}, maSem: null, hide: false, flash: null, lib: 1, askFn: null, recI: 0 };
 var $ = function (id) { return document.getElementById(id); };
+var BASE_IMG = window.BV_ARTE ? window.BV_ARTE.replace(/arte-$/, '') : (window.BV_STATIC ? '' : 'https://darioocampo97-lang.github.io/banco-valores/');
+var ICO = '<img class="ic" src="' + BASE_IMG + 'bloque.png" alt="">';
+function un(n) { return Math.abs(parseInt(n, 10)) === 1 ? 'block' : 'blocks'; }
 
 function ls(k, v) {
   try {
@@ -275,7 +280,7 @@ function load(first) {
     if (o.auto && o.pub.estudiante) {
       var r = o.auto, n = o.pub.estudiante.nombre;
       if (r.duplicado) S.flash = { k: 'dup', ic: '!', h: n, p: 'Ya había aportado esta semana (' + cop(r.ya) + '). No se registró de nuevo.' };
-      else S.flash = { k: 'ok', ic: '✓', h: n, p: cop(r.valor) + ' para Mano Amiga' + (r.puntos ? ' · +' + r.puntos + ' ★' : '') + (r.bono ? ' · ¡Racha! +' + r.bono + ' ★' : ''), ids: r.ids };
+      else S.flash = { k: 'ok', ic: '✓', h: n, p: cop(r.valor) + ' para Mano Amiga' + (r.puntos ? ' · +' + r.puntos + ' ' + un(r.puntos) + '' : '') + (r.bono ? ' · ¡Racha! +' + r.bono + ' ' + un(r.bono) + '' : ''), ids: r.ids };
     }
     render();
   }).catch(fail);
@@ -308,34 +313,34 @@ function vFlash() {
 }
 function vTop(back) {
   var c = S.T.cfg;
-  return '<div class="top">' + (back ? '<button class="lnk" data-a="back">‹ Grupo</button>' : '<div class="logo">★</div>') +
+  return '<div class="top">' + (back ? '<button class="lnk" data-a="back">‹ Grupo</button>' : '<div class="logo">' + ICO + '</div>') +
     '<div><h1>' + esc(c.banco) + '</h1><small>Semana ' + S.T.sem + '</small></div><div class="sp"></div>' + (back ? '<button class="lnk" data-a="scan">▣ Escanear</button>' : '') + '</div>';
 }
 function vNav() {
-  var t = [['grupo', '☰', 'Grupo'], ['mano', '♥', 'Mano Amiga'], ['scan', '▣', 'Escanear'], ['tablero', '★', 'Tablero'], ['mas', '⋯', 'Más']];
+  var t = [['grupo', '☰', 'Grupo'], ['mano', '♥', 'Mano Amiga'], ['scan', '▣', 'Escanear'], ['tablero', ICO, 'Tablero'], ['mas', '⋯', 'Más']];
   return '<div class="nav">' + t.map(function (x) { return '<button data-a="' + (x[0] === 'scan' ? 'scan' : 'tab') + '" data-t="' + x[0] + '" class="' + (S.tab === x[0] ? 'on' : '') + '"><b>' + x[1] + '</b>' + x[2] + '</button>'; }).join('') + '</div>';
 }
 function metaCard(m) {
   var pct = m.objetivo ? Math.min(100, Math.round(100 * m.actual / m.objetivo)) : 0;
-  return '<div class="card"><p class="h">Meta del grupo</p><div class="row" style="justify-content:space-between;margin-bottom:8px"><b>' + m.actual + ' / ' + m.objetivo + ' ★</b><span>' + pct + '%</span></div>' +
+  return '<div class="card"><p class="h">Meta del grupo</p><div class="row" style="justify-content:space-between;margin-bottom:8px"><b>' + m.actual + ' / ' + m.objetivo + ' ' + ICO + '</b><span>' + pct + '%</span></div>' +
     '<div class="bar"><i style="width:' + pct + '%"></i></div><p style="margin:10px 0 0;color:var(--mut);font-size:14px">Premio: ' + esc(m.premio) + '</p></div>';
 }
 function mvRow(m, undo) {
   var ma = m.cuenta !== 'PUNTOS';
   return '<div class="mv"><div class="d"><b>' + esc(m.categoria) + '</b><small>' + fecha(m.t) + (m.nota ? ' · ' + esc(m.nota) : '') + '</small></div>' +
-    '<div class="v ' + (ma ? 'cop' : m.valor < 0 ? 'neg' : 'pos') + '">' + (ma ? cop(m.valor) : sg(m.valor) + ' ★') + '</div>' +
+    '<div class="v ' + (ma ? 'cop' : m.valor < 0 ? 'neg' : 'pos') + '">' + (ma ? cop(m.valor) : sg(m.valor) + ' ' + ICO) + '</div>' +
     (undo ? (m.tmp ? '<span style="color:var(--mut);font-size:12px;padding:6px 10px">Guardando…</span>' : '<button class="sec" style="padding:6px 10px;font-size:12px" data-a="undo" data-ids="' + esc(m.id) + '">Anular</button>') : '') + '</div>';
 }
 function bankCard(s, sem) {
   var n = 0; for (var k in s.semanas) if (s.semanas[k] > 0) n++;
   return '<div class="card bank"><div class="lab">' + esc((S.T || S.pub).cfg.banco) + '</div><p class="who">' + esc(s.nombre) + '</p>' +
-    '<div class="big">' + s.saldo + '<span>★ ' + esc(mon()) + '</span></div>' +
+    '<div class="big">' + s.saldo + '<span>' + ICO + ' ' + esc(mon()) + '</span></div>' +
     '<div class="stats"><div><b>' + cop(s.aporteTotal) + '</b><small>Mano Amiga</small></div><div><b>' + n + '</b><small>semanas aportadas</small></div><div><b>' + s.racha + '</b><small>racha actual</small></div></div></div>';
 }
 function vPublic() {
   var p = S.pub;
   if (!p || !p.estudiante) {
-    return '<div class="center"><div class="logo">★</div><h2 style="margin:0">' + esc(p ? p.cfg.banco : 'Banco de Valores') + '</h2>' +
+    return '<div class="center"><div class="logo">' + ICO + '</div><h2 style="margin:0">' + esc(p ? p.cfg.banco : 'Value Builders') + '</h2>' +
       '<p style="margin:0">' + (S.code ? 'Esta tarjeta no está activa.' : 'Acerca tu tarjeta al celular para ver tu cuenta.') + '</p>' +
       '<button class="sec" data-a="pin">Soy el profesor</button></div>';
   }
@@ -369,7 +374,7 @@ function vGrupo() {
     '<button class="sec" style="padding:8px 12px;font-size:13px" data-a="selAll">' + (n === T.estudiantes.length ? 'Quitar selección' : 'Seleccionar todos') + '</button></div><div class="list">';
   T.estudiantes.forEach(function (s) {
     h += '<div class="st ' + (S.sel[s.id] ? 'sel' : '') + '"><button class="ck" data-a="sel" data-id="' + s.id + '" aria-label="Seleccionar">✓</button>' +
-      '<button class="n" data-a="open" data-id="' + s.id + '">' + esc(s.nombre) + '</button><span class="s">' + s.saldo + ' ★</span></div>';
+      '<button class="n" data-a="open" data-id="' + s.id + '">' + esc(s.nombre) + '</button><span class="s">' + s.saldo + ' ' + ICO + '</span></div>';
   });
   h += '</div><p class="note">Toca un nombre para abrir su ficha, o marca varios para darles ' + esc(mon()) + ' a la vez.</p>';
   return h;
@@ -432,16 +437,16 @@ function vTablero() {
   T.estudiantes.forEach(function (s) { if (s.semanas[T.sem] > 0) c++; });
   var max = 0; T.estudiantes.forEach(function (s) { if (s.ganadasSemana > max) max = s.ganadasSemana; });
   var r = recs();
-  var h = '<div class="tv"><div class="tt"><span class="star">★</span><h1>' + esc(T.cfg.banco) + '</h1><div class="sp"></div>' +
+  var h = '<div class="tv"><div class="tt"><span class="star">' + ICO + '</span><h1>' + esc(T.cfg.banco) + '</h1><div class="sp"></div>' +
     '<button data-a="hide">' + (S.hide ? 'Mostrar números' : 'Ocultar números') + '</button><button data-a="fs">Pantalla completa</button><button data-a="tab" data-t="grupo">Salir</button></div>' +
-    '<div class="goal"><div class="num">' + m.actual + '</div><div class="of">/ ' + m.objetivo + ' ★</div><div class="xp"><i style="width:' + (p * 100).toFixed(1) + '%"></i></div>' +
-    '<div class="fr">' + (p >= 1 ? 'Objectif atteint ! 🎉' : 'Objectif du groupe') + '</div><div class="es">Meta del grupo: ' + esc(m.premio) + '</div></div>' +
-    '<div class="kids"><div class="fr">Nos étoiles<small>Nuestras estrellas</small></div><div class="kg">';
+    '<div class="goal"><div class="num">' + m.actual + '</div><div class="of">/ ' + m.objetivo + ' ' + ICO + '</div><div class="xp"><i style="width:' + (p * 100).toFixed(1) + '%"></i></div>' +
+    '<div class="fr">' + (p >= 1 ? 'Goal reached! 🎉' : 'Team goal') + '</div><div class="es">Meta del grupo: ' + esc(m.premio) + '</div></div>' +
+    '<div class="kids"><div class="fr">Our blocks<small>Nuestros bloques</small></div><div class="kg">';
   T.estudiantes.forEach(function (s) {
-    h += '<div class="kid ' + (max > 0 && s.ganadasSemana === max ? 'hot' : '') + '">' + esc(s.corto) + (S.hide ? '' : '<span>' + s.saldo + ' ★</span>') + '</div>';
+    h += '<div class="kid ' + (max > 0 && s.ganadasSemana === max ? 'hot' : '') + '">' + esc(s.corto) + (S.hide ? '' : '<span>' + s.saldo + ' ' + ICO + '</span>') + '</div>';
   });
   h += '</div></div><div class="bot"><div>Mano Amiga: ' + cop(T.totalMA) + '<small>Esta semana aportaron ' + c + ' de ' + T.estudiantes.length + '</small></div>' +
-    '<div class="rec"><span id="rec">' + esc(r.length ? '★ ' + r[S.recI % r.length] : '★ Bravo, 4AM !') + '</span><small>Bravo ! · Reconocimientos de la semana</small></div></div></div>';
+    '<div class="rec">' + ICO + ' <span id="rec">' + esc(r.length ? r[S.recI % r.length] : 'Great job, 4AM!') + '</span><small>Great job! · Reconocimientos de la semana</small></div></div></div>';
   return h;
 }
 
@@ -460,6 +465,7 @@ function loadScript(u) {
 function urlDe(s) { return (window.BV_STATIC ? location.origin + location.pathname : (S.T.url || (location.origin + location.pathname))) + '?t=' + s.codigo; }
 function qrSvg(text) { var q = qrcode(0, 'M'); q.addData(text); q.make(); return q.createSvgTag({ cellSize: 4, margin: 0, scalable: true }); }
 var ARTE = window.BV_ARTE || (window.BV_STATIC ? 'arte-' : 'https://darioocampo97-lang.github.io/banco-valores/arte-');
+var CUBE = '<svg class="cube" viewBox="0 0 24 24"><path d="M12 2 22 7 12 12 2 7z" fill="#ffe27a"/><path d="M2 7 12 12v10L2 17z" fill="#d9a514"/><path d="M22 7 12 12v10l10-5z" fill="#a87b0a"/><path d="M12 2 22 7v10l-10 5-10-5V7z" fill="none" stroke="#5c4300" stroke-width=".8"/></svg>';
 var ART = ['bosque', 'mina', 'oceano', 'desierto', 'nieve', 'cueva'];
 var ART_DE = { E04: 'pablo' };   // tarjetas personalizadas: id del estudiante -> imagen
 function vCards() {
@@ -476,15 +482,15 @@ function vCards() {
     var s = x.s, num = ('4AM0' + x.n + String(s.codigo).toUpperCase()).replace(/(.{4})/g, '$1 ').trim();
     h += '<div class="unit">' +
       '<div class="cf" style="background-image:linear-gradient(90deg,rgba(0,0,0,.66) 0,rgba(0,0,0,.3) 46%,rgba(0,0,0,0) 70%),linear-gradient(0deg,rgba(0,0,0,.6) 0,rgba(0,0,0,0) 44%),url(' + ARTE + x.art + '.jpg);background-size:auto,auto,108% auto">' +
-      '<div class="ttl"><span class="l2">' + esc(banco) + '</span><span class="l1">' + esc(banco) + '</span><span class="l0">' + esc(banco) + '</span></div><div class="grp">4AM · ÉTOILES</div><div class="chip"></div>' +
+      '<div class="ttl"><span class="l2">' + esc(banco) + '</span><span class="l1">' + esc(banco) + '</span><span class="l0">' + esc(banco) + '</span></div><div class="grp">4AM · ' + esc(String(T.cfg.moneda).toUpperCase()) + '</div><div class="chip"></div>' +
       '<svg class="wave" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round"><path d="M6 8.5a6 6 0 0 1 0 7"/><path d="M10.5 6a10 10 0 0 1 0 12"/><path d="M15 3.5a14 14 0 0 1 0 17"/></svg>' +
       '<div class="num">' + esc(num) + '</div>' +
-      '<div class="meta"><div><span>MIEMBRO DESDE</span><b>2026</b></div><div><span>VÁLIDA HASTA</span><b>12/27</b></div></div>' +
-      '<div class="name" style="font-size:' + (s.nombre.length > 24 ? 3 : s.nombre.length > 21 ? 3.3 : 3.7) + 'mm">' + esc(s.nombre) + '</div><div class="brand"><i>★</i>étoile</div></div>' +
+      '<div class="meta"><div><span>MEMBER SINCE</span><b>2026</b></div><div><span>VALID THRU</span><b>12/27</b></div></div>' +
+      '<div class="name" style="font-size:' + (s.nombre.length > 24 ? 3 : s.nombre.length > 21 ? 3.3 : 3.7) + 'mm">' + esc(s.nombre) + '</div><div class="brand">' + CUBE + 'BLOCK</div></div>' +
       '<div class="cb" style="background-image:linear-gradient(rgba(0,0,0,.38),rgba(0,0,0,.38)),url(' + ARTE + 'reverso.jpg);background-size:auto,108% auto"><div class="stripe"></div>' +
-      '<div class="lab">FIRMA DEL TITULAR</div><div class="sig"></div><div class="cvv">0' + x.n + '</div>' +
-      '<div class="txt">Esta tarjeta es personal. Acércala al celular o escanea el código para ver tu cuenta de ' + esc(T.cfg.moneda) + '. Cuídala: reponerla cuesta ' + T.cfg.reposicion + ' ' + esc(T.cfg.moneda) + '. Si la encuentras, entrégala en 4AM.</div>' +
-      '<div class="bk">' + esc(banco) + '</div><div class="qr">' + qrSvg(urlDe(s)) + '</div><div class="cap">ESCANÉAME</div><div class="brand"><i>★</i>étoile</div></div></div>';
+      '<div class="lab">AUTHORIZED SIGNATURE</div><div class="sig"></div><div class="cvv">0' + x.n + '</div>' +
+      '<div class="txt">Tap or scan to see your account.</div>' +
+      '<div class="bk">' + esc(banco) + '</div><div class="qr">' + qrSvg(urlDe(s)) + '</div><div class="cap">SCAN ME</div><div class="brand">' + CUBE + 'BLOCK</div></div></div>';
   });
   return h + '</div></div>';
 }
@@ -554,7 +560,7 @@ function scanGot(text) {
     if (s.semanas[w] > 0) { scanMsg('dup', s.nombre, 'Ya había aportado esta semana (' + cop(s.semanas[w]) + '). No se registró de nuevo.'); return; }
     doAporte(s.id, S.T.cfg.aporte, w, false);
     $('toast').className = '';
-    scanMsg('ok', s.nombre, cop(S.T.cfg.aporte) + ' para Mano Amiga' + (S.T.cfg.puntosAporte > 0 ? ' · +' + S.T.cfg.puntosAporte + ' ★' : '') + '. Siguiente tarjeta.');
+    scanMsg('ok', s.nombre, cop(S.T.cfg.aporte) + ' para Mano Amiga' + (S.T.cfg.puntosAporte > 0 ? ' · +' + S.T.cfg.puntosAporte + ' ' + un(S.T.cfg.puntosAporte) + '' : '') + '. Siguiente tarjeta.');
     return;
   }
   scanStop(); S.tab = 'grupo'; S.cur = s.id; render(); window.scrollTo(0, 0);
@@ -639,12 +645,12 @@ function doAporte(id, valor, w, forzar) {
   }
   var ms = [addMovL(s, 'MANO_AMIGA', 'Aporte Mano Amiga', valor, '', w)];
   if (!ya && T.cfg.puntosAporte > 0) ms.push(addMovL(s, 'PUNTOS', 'Constancia Mano Amiga', T.cfg.puntosAporte, 'Semana ' + w, w));
-  var msg = s.corto + ': ' + cop(valor) + (ms.length > 1 ? ' · +' + T.cfg.puntosAporte + ' ★' : '');
+  var msg = s.corto + ': ' + cop(valor) + (ms.length > 1 ? ' · +' + T.cfg.puntosAporte + ' ' + un(T.cfg.puntosAporte) + '' : '');
   modal(null); render(); toast(msg);
   bg('aporte', { id: id, valor: valor, semana: w, forzar: true }, function (r) {
     setIds(ms, r.ids);
     if (r.bono) { var b = addMovL(s, 'PUNTOS', 'Racha Mano Amiga', r.bono, r.racha + ' semanas seguidas', w); b.id = r.ids[r.ids.length - 1]; b.tmp = false; }
-    toastIds(msg, msg + (r.bono ? ' · racha +' + r.bono + ' ★' : ''), r.ids); render();
+    toastIds(msg, msg + (r.bono ? ' · racha +' + r.bono + ' ' + un(r.bono) + '' : ''), r.ids); render();
   });
 }
 
@@ -676,25 +682,25 @@ var A = {
   back: function () { scanStop(); S.cur = null; S.tab = 'grupo'; render(); },
   gain: function (d) {
     var c = S.T.categorias[+d.i], s = est(S.cur);
-    registrarL([S.cur], c.nombre, c.valor, '', false, s.corto + ': ' + sg(c.valor) + ' ★ · ' + c.nombre);
+    registrarL([S.cur], c.nombre, c.valor, '', false, s.corto + ': ' + sg(c.valor) + ' ' + un(sg(c.valor)) + ' · ' + c.nombre);
   },
   disc: function (d) {
     var c = S.T.categorias[+d.i], s = est(S.cur), id = S.cur;
-    ask('Descontar ' + Math.abs(c.valor) + ' ★', s.nombre + ' · ' + c.nombre, 'Descontar', function () {
-      registrarL([id], c.nombre, c.valor, '', false, s.corto + ': ' + sg(c.valor) + ' ★ · ' + c.nombre);
+    ask('Descontar ' + Math.abs(c.valor) + ' ' + un(Math.abs(c.valor)) + '', s.nombre + ' · ' + c.nombre, 'Descontar', function () {
+      registrarL([id], c.nombre, c.valor, '', false, s.corto + ': ' + sg(c.valor) + ' ' + un(sg(c.valor)) + ' · ' + c.nombre);
     });
   },
   libre: function () {
     S.lib = 1;
     modal('<h2>Registro libre</h2><textarea id="lib-nota" rows="3" placeholder="¿Qué hizo? Escríbelo o díctalo"></textarea>' +
-      '<div class="step"><button data-a="libStep" data-d="-1">−</button><b id="lib-v">+1 ★</b><button data-a="libStep" data-d="1">+</button></div>' +
+      '<div class="step"><button data-a="libStep" data-d="-1">−</button><b id="lib-v">+1 block</b><button data-a="libStep" data-d="1">+</button></div>' +
       '<button class="pri" data-a="libSave">Guardar</button><button class="sec" style="width:100%;margin-top:8px" data-a="close">Cancelar</button>');
   },
-  libStep: function (d) { S.lib += +d.d; if (S.lib === 0) S.lib += +d.d; S.lib = Math.max(-20, Math.min(20, S.lib)); $('lib-v').textContent = sg(S.lib) + ' ★'; },
+  libStep: function (d) { S.lib += +d.d; if (S.lib === 0) S.lib += +d.d; S.lib = Math.max(-20, Math.min(20, S.lib)); $('lib-v').textContent = sg(S.lib) + ' ' + un(S.lib); },
   libSave: function () {
     var nota = $('lib-nota').value.trim(), s = est(S.cur);
     if (!nota) { $('lib-nota').focus(); return; }
-    registrarL([S.cur], '', S.lib, nota, true, s.corto + ': ' + sg(S.lib) + ' ★');
+    registrarL([S.cur], '', S.lib, nota, true, s.corto + ': ' + sg(S.lib) + ' ' + un(sg(S.lib)) + '');
   },
   aporte: function (d) { doAporte(S.cur, +d.v, S.T.sem, false); },
   aporteL: function (d) { doAporte(d.id, S.T.cfg.aporte, S.maSem || S.T.sem, false); },
@@ -712,14 +718,14 @@ var A = {
   aoSave: function () { doAporte(S.cur, +$('ao-v').value, +$('ao-w').value, false); },
   canje: function () {
     var s = est(S.cur);
-    modal('<h2>Canjear premio · ' + s.saldo + ' ★</h2>' + S.T.premios.map(function (p, i) {
+    modal('<h2>Canjear premio · ' + s.saldo + ' ' + ICO + '</h2>' + S.T.premios.map(function (p, i) {
       return '<button class="btn" style="width:100%;margin-bottom:8px;' + (s.saldo < p.costo ? 'opacity:.4' : '') + '" ' + (s.saldo < p.costo ? 'disabled' : 'data-a="canjeOk" data-i="' + i + '"') + '><span class="pt">' + p.costo + '</span>' + esc(p.nombre) + '</button>';
     }).join('') + '<button class="sec" style="width:100%" data-a="close">Cancelar</button>');
   },
   canjeOk: function (d) {
     var p = S.T.premios[+d.i], s = est(S.cur);
     if (s.saldo < p.costo) return;
-    var m = addMovL(s, 'PUNTOS', p.nombre, -p.costo, ''), msg = s.corto + ' canjeó: ' + p.nombre + ' (−' + p.costo + ' ★)';
+    var m = addMovL(s, 'PUNTOS', p.nombre, -p.costo, ''), msg = s.corto + ' canjeó: ' + p.nombre + ' (−' + p.costo + ' ' + un(p.costo) + ')';
     modal(null); render(); toast(msg);
     bg('canjear', { id: s.id, premio: p.nombre }, function (r) { setIds([m], r.ids); toastIds(msg, msg, r.ids); render(); });
   },
@@ -739,9 +745,9 @@ var A = {
   lote: function () {
     var c = S.T.categorias[+$('lote-cat').value], ids = Object.keys(S.sel), go = function () {
       S.sel = {};
-      registrarL(ids, c.nombre, c.valor, '', false, sg(c.valor) + ' ★ a ' + ids.length + ' estudiantes · ' + c.nombre);
+      registrarL(ids, c.nombre, c.valor, '', false, sg(c.valor) + ' ' + un(sg(c.valor)) + ' a ' + ids.length + ' estudiantes · ' + c.nombre);
     };
-    if (c.valor < 0) ask('Descontar a ' + ids.length + ' estudiantes', c.nombre + ' (' + c.valor + ' ★ a cada uno)', 'Descontar', go); else go();
+    if (c.valor < 0) ask('Descontar a ' + ids.length + ' estudiantes', c.nombre + ' (' + c.valor + ' ' + un(c.valor) + ' a cada uno)', 'Descontar', go); else go();
   },
   maMode: function () { ls('bv_ma', ls('bv_ma') === '1' ? null : '1'); render(); },
   maWeek: function (d) { var w = (S.maSem || S.T.sem) + (+d.d); S.maSem = Math.max(1, Math.min(S.T.sem, w)); render(); },
@@ -754,7 +760,7 @@ var A = {
   },
   reponer: function (d) {
     var s = est(d.id);
-    ask('Reponer tarjeta', s.nombre + ': la tarjeta anterior deja de funcionar, se crea un enlace nuevo y se descuentan ' + S.T.cfg.reposicion + ' ★.', 'Reponer', function () {
+    ask('Reponer tarjeta', s.nombre + ': la tarjeta anterior deja de funcionar, se crea un enlace nuevo y se descuentan ' + S.T.cfg.reposicion + ' ' + un(S.T.cfg.reposicion) + '.', 'Reponer', function () {
       busy(true);
       call('reponer', S.token, d.id).then(function () { toast(s.corto + ': enlace nuevo creado. Grábalo en la tarjeta nueva.'); load(false); }).catch(fail);
     });
@@ -775,7 +781,7 @@ setInterval(function () {
   if (!S.T || S.tab !== 'tablero' || S.cur) return;
   S.recI++;
   var r = recs(), el = $('rec');
-  if (el && r.length) el.textContent = '★ ' + r[S.recI % r.length];
+  if (el && r.length) el.textContent = r[S.recI % r.length];
 }, 5000);
 setInterval(function () {
   if (!S.T || S.tab !== 'tablero' || S.cur || $('modal').className === 'on') return;
