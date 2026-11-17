@@ -393,7 +393,8 @@ function vMano() {
   T.estudiantes.forEach(function (s) {
     var v = s.semanas[w] || 0;
     h += '<div class="st" style="padding:6px 6px 6px 12px"><button class="n" data-a="open" data-id="' + s.id + '">' + esc(s.nombre) + '</button>' +
-      (v ? '<span class="s" style="color:var(--ok);padding-right:8px">✓ ' + cop(v) + '</span>' : '<button class="sec" style="padding:9px 12px;font-size:14px" data-a="aporteL" data-id="' + s.id + '">+ ' + cop(T.cfg.aporte) + '</button>') + '</div>';
+      (v ? '<span class="s" style="color:var(--ok);padding-right:6px">✓ ' + cop(v) + '</span><button class="sec" style="padding:9px 12px;font-size:14px" data-a="aporteOtro" data-id="' + s.id + '" data-extra="1" aria-label="Sumar otro aporte">+</button>'
+         : '<button class="sec" style="padding:9px 10px;font-size:14px" data-a="aporteL" data-id="' + s.id + '">+ ' + cop(T.cfg.aporte) + '</button><button class="sec" style="padding:9px 10px;font-size:14px" data-a="aporteOtro" data-id="' + s.id + '">Otro</button>') + '</div>';
   });
   return h + '</div><div class="card" style="margin-top:14px"><p class="h">Total recaudado</p><b style="font-size:26px">' + cop(T.totalMA) + '</b></div>';
 }
@@ -704,10 +705,13 @@ var A = {
   },
   aporte: function (d) { doAporte(S.cur, +d.v, S.T.sem, false); },
   aporteL: function (d) { doAporte(d.id, S.T.cfg.aporte, S.maSem || S.T.sem, false); },
-  aporteOtro: function () {
-    modal('<h2>Aporte a Mano Amiga</h2><label>Monto (COP)<input id="ao-v" type="number" inputmode="numeric" min="1000" step="1000" value="' + S.T.cfg.aporte + '"></label>' +
+  aporteOtro: function (d) {
+    var id = (d && d.id) || S.cur, s = est(id), w = S.cur ? S.T.sem : (S.maSem || S.T.sem), extra = !!(d && d.extra);
+    S.ao = { id: id, extra: extra };
+    modal('<h2>' + (extra ? 'Aporte extra' : 'Aporte a Mano Amiga') + '</h2><p style="margin:-4px 0 14px;color:var(--mut)">' + esc(s.nombre) + (extra ? ' · ya aportó esta semana; el extra suma al total, sin block adicional.' : '') + '</p>' +
+      '<label>Monto (COP)<input id="ao-v" type="number" inputmode="numeric" min="1000" step="1000" value="' + S.T.cfg.aporte + '"></label>' +
       '<div class="step"><button data-a="aoStep" data-d="-1000">−</button><b id="ao-b">' + cop(S.T.cfg.aporte) + '</b><button data-a="aoStep" data-d="1000">+</button></div>' +
-      '<label>Semana<input id="ao-w" type="number" inputmode="numeric" min="1" step="1" value="' + S.T.sem + '"></label>' +
+      '<label>Semana<input id="ao-w" type="number" inputmode="numeric" min="1" step="1" value="' + w + '"></label>' +
       '<button class="pri" data-a="aoSave">Registrar</button><button class="sec" style="width:100%;margin-top:8px" data-a="close">Cancelar</button>');
     $('ao-v').addEventListener('input', function () { $('ao-b').textContent = cop(+$('ao-v').value || 0); });
   },
@@ -715,7 +719,7 @@ var A = {
     var i = $('ao-v'), v = Math.round((+i.value || 0) / 1000) * 1000 + (+d.d);
     v = Math.max(1000, v); i.value = v; $('ao-b').textContent = cop(v);
   },
-  aoSave: function () { doAporte(S.cur, +$('ao-v').value, +$('ao-w').value, false); },
+  aoSave: function () { var a = S.ao || { id: S.cur }; doAporte(a.id, +$('ao-v').value, +$('ao-w').value, !!a.extra); },
   canje: function () {
     var s = est(S.cur);
     modal('<h2>Canjear premio · ' + s.saldo + ' ' + ICO + '</h2>' + S.T.premios.map(function (p, i) {
