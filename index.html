@@ -37,6 +37,7 @@ button{cursor:pointer;border:0;background:none}
 .bank:after{content:"";position:absolute;right:-26px;bottom:-40px;width:170px;height:170px;opacity:.16;background:url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3E%3Cpath d=%27M12 2 22 7 12 12 2 7z%27 fill=%27%23ffe27a%27/%3E%3Cpath d=%27M2 7 12 12v10L2 17z%27 fill=%27%23d9a514%27/%3E%3Cpath d=%27M22 7 12 12v10l10-5z%27 fill=%27%23a87b0a%27/%3E%3C/svg%3E") center/contain no-repeat}
 .ic{width:1.05em;height:1.05em;display:inline-block;vertical-align:-.16em;flex:none;object-fit:contain}
 .logo .ic{width:70%;height:70%}
+.bank .av{position:absolute;top:14px;right:14px;width:72px;height:72px;object-fit:cover;border-radius:12px;border:2px solid rgba(255,255,255,.7);z-index:1}.bank i.av{display:none}.bank .lab,.bank .who{padding-right:84px}
 .bank .who{font-size:22px;font-weight:700;margin:0 0 2px}
 .bank .lab{font-size:12px;color:#b9c3dd;text-transform:uppercase;letter-spacing:.06em}
 .bank .big{font-size:54px;font-weight:800;line-height:1;margin:10px 0 2px;color:var(--gold2)}
@@ -191,13 +192,14 @@ td.y{color:var(--ok);font-weight:700}td.n{color:#c9c3b3}
 .tv .kids .fr small{font-size:1.5vw;color:#eaf4ff;font-weight:500;margin-left:.8vw}
 .tv .kg{flex:1;display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:1fr;gap:1vh .7vw;min-height:0}
 .tv .kid{background:rgba(28,29,40,.86);border:.25vw solid;border-color:#0c0c12 #7a7a92 #7a7a92 #0c0c12;display:flex;flex-direction:column;justify-content:center;padding:0 .9vw;font-size:1.9vw;font-weight:600;min-height:0;white-space:nowrap;overflow:hidden;line-height:1.2}
+.tv .kid{flex-direction:row;align-items:center;justify-content:flex-start;gap:.6vw;padding:0 .5vw;font-size:1.5vw}.tv .kid .kn span{font-size:2vw}.tv .kid .kn{display:flex;flex-direction:column;min-width:0;overflow:hidden}.tv .kid .av{flex:none;height:76%;max-height:4.3vw;aspect-ratio:1;object-fit:cover;border:.2vw solid #0c0c12;background:#3a3b4d;color:#c9c9d8;font-style:normal;display:flex;align-items:center;justify-content:center;font-size:2.2vw;font-weight:700;text-shadow:none}
 .tv .kid span{color:var(--gold2);white-space:nowrap;font-size:2.4vw;font-weight:700}
 .tv .kid.hot{background:rgba(120,84,0,.9);border-color:#fff3a8 var(--gold) var(--gold) #fff3a8}
 .tv .bot{grid-column:1/3;display:flex;gap:2vw;align-items:stretch}
 .tv .bot div{background:rgba(28,29,40,.9);border:.25vw solid;border-color:#7a7a92 #0c0c12 #0c0c12 #7a7a92;padding:1.1vh 1.3vw;font-size:1.9vw;font-weight:700}
 .tv .bot .rec{flex:1;color:var(--gold2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tv .bot small{display:block;font-size:1.35vw;color:#d6d9ee;font-weight:500}
-@media (max-width:700px){.tv{display:block;overflow:auto;padding:14px 12px 24px;text-shadow:2px 2px 0 rgba(0,0,0,.55);background:linear-gradient(rgba(10,14,30,.35),rgba(10,14,30,.35)),url(arte-tablero.jpg) center/cover no-repeat,linear-gradient(#3f8fe0,#8fc6ff)}.tv .tt{flex-wrap:wrap;gap:8px;margin-bottom:14px}.tv .tt h1{font-size:22px;flex-basis:70%}.tv .tt .star{font-size:24px}.tv .tt .sp{display:none}.tv .tt button{font-size:14px;padding:8px 10px;border-width:2px}.tv .goal{margin-bottom:18px}.tv .goal .num{font-size:84px;text-shadow:4px 4px 0 #5c4300}.tv .goal .of{font-size:22px}.tv .xp{height:30px;border-width:3px}.tv .xp i{background-image:repeating-linear-gradient(90deg,transparent 0 calc(5% - 2px),rgba(0,0,0,.55) calc(5% - 2px) 5%)}.tv .goal .fr,.tv .kids .fr{font-size:21px}.tv .goal .es,.tv .kids .fr small,.tv .bot small{font-size:13px}.tv .kids{display:block;margin-bottom:16px}.tv .kg{display:grid;grid-template-columns:repeat(2,1fr);grid-auto-rows:46px;gap:8px;margin-top:8px}.tv .kid{font-size:15px;padding:0 9px;flex-direction:row;align-items:center;justify-content:space-between;border-width:3px}.tv .kid span{font-size:16px}.tv .bot{display:block}.tv .bot div{font-size:16px;border-width:3px;padding:10px;margin-bottom:8px}.tv .bot .rec{white-space:normal}}
+@media (max-width:700px){.tv .kid .kn{flex:1;flex-direction:row;justify-content:space-between;align-items:center}.tv .kid .av{height:34px;max-height:none;border-width:2px;font-size:16px}.tv .kid{font-size:15px}.tv .kid .kn span{font-size:16px}.tv{display:block;overflow:auto;padding:14px 12px 24px;text-shadow:2px 2px 0 rgba(0,0,0,.55);background:linear-gradient(rgba(10,14,30,.35),rgba(10,14,30,.35)),url(arte-tablero.jpg) center/cover no-repeat,linear-gradient(#3f8fe0,#8fc6ff)}.tv .tt{flex-wrap:wrap;gap:8px;margin-bottom:14px}.tv .tt h1{font-size:22px;flex-basis:70%}.tv .tt .star{font-size:24px}.tv .tt .sp{display:none}.tv .tt button{font-size:14px;padding:8px 10px;border-width:2px}.tv .goal{margin-bottom:18px}.tv .goal .num{font-size:84px;text-shadow:4px 4px 0 #5c4300}.tv .goal .of{font-size:22px}.tv .xp{height:30px;border-width:3px}.tv .xp i{background-image:repeating-linear-gradient(90deg,transparent 0 calc(5% - 2px),rgba(0,0,0,.55) calc(5% - 2px) 5%)}.tv .goal .fr,.tv .kids .fr{font-size:21px}.tv .goal .es,.tv .kids .fr small,.tv .bot small{font-size:13px}.tv .kids{display:block;margin-bottom:16px}.tv .kg{display:grid;grid-template-columns:repeat(2,1fr);grid-auto-rows:46px;gap:8px;margin-top:8px}.tv .kid{font-size:15px;padding:0 9px;flex-direction:row;align-items:center;justify-content:space-between;border-width:3px}.tv .kid span{font-size:16px}.tv .bot{display:block}.tv .bot div{font-size:16px;border-width:3px;padding:10px;margin-bottom:8px}.tv .bot .rec{white-space:normal}}
 </style>
 </head>
 <body>
@@ -233,6 +235,10 @@ var S = { code: '', token: '', pub: null, T: null, tab: 'grupo', cur: null, sel:
 var $ = function (id) { return document.getElementById(id); };
 var BASE_IMG = window.BV_ARTE ? window.BV_ARTE.replace(/arte-$/, '') : (window.BV_STATIC ? '' : 'https://darioocampo97-lang.github.io/banco-valores/');
 var ICO = '<img class="ic" src="' + BASE_IMG + 'bloque.png" alt="">';
+function avatar(s) {
+  var a = typeof ART_DE !== 'undefined' && ART_DE[s.id];
+  return a ? '<img class="av" src="' + BASE_IMG + 'av-' + a + '.jpg" alt="">' : '<i class="av">' + esc(String(s.corto || s.nombre || '?').charAt(0)) + '</i>';
+}
 function un(n) { return Math.abs(parseInt(n, 10)) === 1 ? 'block' : 'blocks'; }
 
 function ls(k, v) {
@@ -334,7 +340,7 @@ function mvRow(m, undo) {
 }
 function bankCard(s, sem) {
   var n = 0; for (var k in s.semanas) if (s.semanas[k] > 0) n++;
-  return '<div class="card bank"><div class="lab">' + esc((S.T || S.pub).cfg.banco) + '</div><p class="who">' + esc(s.nombre) + '</p>' +
+  return '<div class="card bank">' + avatar(s) + '<div class="lab">' + esc((S.T || S.pub).cfg.banco) + '</div><p class="who">' + esc(s.nombre) + '</p>' +
     '<div class="big">' + s.saldo + '<span>' + ICO + ' ' + esc(mon()) + '</span></div>' +
     '<div class="stats"><div><b>' + cop(s.aporteTotal) + '</b><small>Mano Amiga</small></div><div><b>' + n + '</b><small>semanas aportadas</small></div><div><b>' + s.racha + '</b><small>racha actual</small></div></div></div>';
 }
@@ -445,7 +451,7 @@ function vTablero() {
     '<div class="fr">' + (p >= 1 ? 'Goal reached! 🎉' : 'Team goal') + '</div><div class="es">Meta del grupo: ' + esc(m.premio) + '</div></div>' +
     '<div class="kids"><div class="fr">Our blocks<small>Nuestros bloques</small></div><div class="kg">';
   T.estudiantes.forEach(function (s) {
-    h += '<div class="kid ' + (max > 0 && s.ganadasSemana === max ? 'hot' : '') + '">' + esc(s.corto) + (S.hide ? '' : '<span>' + s.saldo + ' ' + ICO + '</span>') + '</div>';
+    h += '<div class="kid ' + (max > 0 && s.ganadasSemana === max ? 'hot' : '') + '">' + avatar(s) + '<div class="kn">' + esc(s.corto) + (S.hide ? '' : '<span>' + s.saldo + ' ' + ICO + '</span>') + '</div></div>';
   });
   h += '</div></div><div class="bot"><div>Mano Amiga: ' + cop(T.totalMA) + '<small>Esta semana aportaron ' + c + ' de ' + T.estudiantes.length + '</small></div>' +
     '<div class="rec">' + ICO + ' <span id="rec">' + esc(r.length ? r[S.recI % r.length] : 'Great job, 4AM!') + '</span><small>Great job! · Reconocimientos de la semana</small></div></div></div>';
@@ -469,7 +475,10 @@ function qrSvg(text) { var q = qrcode(0, 'M'); q.addData(text); q.make(); return
 var ARTE = window.BV_ARTE || (window.BV_STATIC ? 'arte-' : 'https://darioocampo97-lang.github.io/banco-valores/arte-');
 var CUBE = '<svg class="cube" viewBox="0 0 24 24"><path d="M12 2 22 7 12 12 2 7z" fill="#ffe27a"/><path d="M2 7 12 12v10L2 17z" fill="#d9a514"/><path d="M22 7 12 12v10l10-5z" fill="#a87b0a"/><path d="M12 2 22 7v10l-10 5-10-5V7z" fill="none" stroke="#5c4300" stroke-width=".8"/></svg>';
 var ART = ['bosque', 'mina', 'oceano', 'desierto', 'nieve', 'cueva'];
-var ART_DE = { E04: 'pablo' };   // tarjetas personalizadas: id del estudiante -> imagen
+/* Avatares personalizados: id del estudiante -> imagen (arte-<x>.jpg para la tarjeta, av-<x>.jpg para la foto de perfil).
+   Dibujos sin dueño todavía: av01 criatura verde, av02 vino tinto, av04 sombra negra, av05 monstruo claro,
+   av07 futbolista, av08 blanco y verde, av10 explorador celeste, av11 multicolor. */
+var ART_DE = { E04: 'pablo', E03: 'av12', E05: 'av03', E08: 'av09', E11: 'av06' };
 function vCards() {
   var T = S.T, k = 0, lista = T.estudiantes.map(function (s, i) {
     return { s: s, n: ('0' + (i + 1)).slice(-2), art: ART_DE[s.id] || ART[(k++) % ART.length] };
