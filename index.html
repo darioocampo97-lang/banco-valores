@@ -3,7 +3,7 @@
 <head>
 <base target="_top">
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Jersey+15&family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -14,13 +14,14 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#14213d">
 <meta name="robots" content="noindex,nofollow">
-<link rel="apple-touch-icon" href="icon.png">
-<link rel="icon" href="icon.png">
+<link rel="apple-touch-icon" href="icon-vb.png">
+<link rel="icon" href="icon-vb.png">
 <style>
 :root{--navy:#14213d;--navy2:#1f3260;--gold:#f5b301;--gold2:#ffd966;--bg:#f6f3ea;--card:#fff;--ink:#1b2333;--mut:#6b7385;--line:#e4dfd2;--ok:#1f9d55;--warn:#d97706;--bad:#c53030;--grass:#6aa33a;--dirt:#7b5433;--dirt2:#5c3d24;--px:"Jersey 15",ui-monospace,Menlo,Consolas,monospace}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:16px}
 button,input,select,textarea{font:inherit;color:inherit}
+html,body,button,a,input,select{touch-action:manipulation}
 button{cursor:pointer;border:0;background:none}
 .wrap{max-width:920px;margin:0 auto;padding:16px 16px 110px}
 .wrap.haslote{padding-bottom:190px}
@@ -196,7 +197,7 @@ td.y{color:var(--ok);font-weight:700}td.n{color:#c9c3b3}
 .tv .bot div{background:rgba(28,29,40,.9);border:.25vw solid;border-color:#7a7a92 #0c0c12 #0c0c12 #7a7a92;padding:1.1vh 1.3vw;font-size:1.9vw;font-weight:700}
 .tv .bot .rec{flex:1;color:var(--gold2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tv .bot small{display:block;font-size:1.35vw;color:#d6d9ee;font-weight:500}
-@media (max-width:700px){.tv{display:block;overflow:auto;padding:14px 12px 24px;text-shadow:2px 2px 0 rgba(0,0,0,.55);background:linear-gradient(#3f8fe0,#8fc6ff)}.tv .tt{flex-wrap:wrap;gap:8px;margin-bottom:14px}.tv .tt h1{font-size:22px;flex-basis:70%}.tv .tt .star{font-size:24px}.tv .tt .sp{display:none}.tv .tt button{font-size:14px;padding:8px 10px;border-width:2px}.tv .goal{margin-bottom:18px}.tv .goal .num{font-size:84px;text-shadow:4px 4px 0 #5c4300}.tv .goal .of{font-size:22px}.tv .xp{height:30px;border-width:3px}.tv .xp i{background-image:repeating-linear-gradient(90deg,transparent 0 calc(5% - 2px),rgba(0,0,0,.55) calc(5% - 2px) 5%)}.tv .goal .fr,.tv .kids .fr{font-size:21px}.tv .goal .es,.tv .kids .fr small,.tv .bot small{font-size:13px}.tv .kids{display:block;margin-bottom:16px}.tv .kg{display:grid;grid-template-columns:repeat(2,1fr);grid-auto-rows:46px;gap:8px;margin-top:8px}.tv .kid{font-size:15px;padding:0 9px;flex-direction:row;align-items:center;justify-content:space-between;border-width:3px}.tv .kid span{font-size:16px}.tv .bot{display:block}.tv .bot div{font-size:16px;border-width:3px;padding:10px;margin-bottom:8px}.tv .bot .rec{white-space:normal}}
+@media (max-width:700px){.tv{display:block;overflow:auto;padding:14px 12px 24px;text-shadow:2px 2px 0 rgba(0,0,0,.55);background:linear-gradient(rgba(10,14,30,.35),rgba(10,14,30,.35)),url(arte-tablero.jpg) center/cover no-repeat,linear-gradient(#3f8fe0,#8fc6ff)}.tv .tt{flex-wrap:wrap;gap:8px;margin-bottom:14px}.tv .tt h1{font-size:22px;flex-basis:70%}.tv .tt .star{font-size:24px}.tv .tt .sp{display:none}.tv .tt button{font-size:14px;padding:8px 10px;border-width:2px}.tv .goal{margin-bottom:18px}.tv .goal .num{font-size:84px;text-shadow:4px 4px 0 #5c4300}.tv .goal .of{font-size:22px}.tv .xp{height:30px;border-width:3px}.tv .xp i{background-image:repeating-linear-gradient(90deg,transparent 0 calc(5% - 2px),rgba(0,0,0,.55) calc(5% - 2px) 5%)}.tv .goal .fr,.tv .kids .fr{font-size:21px}.tv .goal .es,.tv .kids .fr small,.tv .bot small{font-size:13px}.tv .kids{display:block;margin-bottom:16px}.tv .kg{display:grid;grid-template-columns:repeat(2,1fr);grid-auto-rows:46px;gap:8px;margin-top:8px}.tv .kid{font-size:15px;padding:0 9px;flex-direction:row;align-items:center;justify-content:space-between;border-width:3px}.tv .kid span{font-size:16px}.tv .bot{display:block}.tv .bot div{font-size:16px;border-width:3px;padding:10px;margin-bottom:8px}.tv .bot .rec{white-space:normal}}
 </style>
 </head>
 <body>
@@ -486,7 +487,7 @@ function vCards() {
       '<div class="ttl"><span class="l2">' + esc(banco) + '</span><span class="l1">' + esc(banco) + '</span><span class="l0">' + esc(banco) + '</span></div><div class="grp">4AM · ' + esc(String(T.cfg.moneda).toUpperCase()) + '</div><div class="chip"></div>' +
       '<svg class="wave" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round"><path d="M6 8.5a6 6 0 0 1 0 7"/><path d="M10.5 6a10 10 0 0 1 0 12"/><path d="M15 3.5a14 14 0 0 1 0 17"/></svg>' +
       '<div class="num">' + esc(num) + '</div>' +
-      '<div class="meta"><div><span>MEMBER SINCE</span><b>2026</b></div><div><span>VALID THRU</span><b>12/27</b></div></div>' +
+      '<div class="meta"><div><span>MEMBER SINCE</span><b>2026</b></div><div><span>VALID THRU</span><b>06/27</b></div></div>' +
       '<div class="name" style="font-size:' + (s.nombre.length > 24 ? 3 : s.nombre.length > 21 ? 3.3 : 3.7) + 'mm">' + esc(s.nombre) + '</div><div class="brand">' + CUBE + 'BLOCK</div></div>' +
       '<div class="cb" style="background-image:linear-gradient(rgba(0,0,0,.38),rgba(0,0,0,.38)),url(' + ARTE + 'reverso.jpg);background-size:auto,108% auto"><div class="stripe"></div>' +
       '<div class="lab">AUTHORIZED SIGNATURE</div><div class="sig"></div><div class="cvv">0' + x.n + '</div>' +
@@ -655,6 +656,44 @@ function doAporte(id, valor, w, forzar) {
   });
 }
 
+/* Reparte un aporte en cuotas semanales: primero semanas pendientes (hasta 3 atrás),
+   luego la semana actual y después semanas adelantadas (hasta 4). Lo que sobre queda como extra. */
+function planAporte(s, total, w) {
+  var a = S.T.cfg.aporte, rem = Math.round(total), plan = [], k;
+  function libre(k) { return !(s.semanas[k] > 0) && !plan.some(function (e) { return e.w === k; }); }
+  for (k = Math.max(1, w - 3); k < w; k++) if (rem >= a && libre(k)) { plan.push({ w: k, v: a, tipo: 'pendiente' }); rem -= a; }
+  if (rem >= a && libre(w)) { plan.push({ w: w, v: a, tipo: 'esta semana' }); rem -= a; }
+  for (k = w + 1; k <= w + 4 && rem >= a; k++) if (libre(k)) { plan.push({ w: k, v: a, tipo: 'adelantada' }); rem -= a; }
+  if (rem > 0) {
+    var cur = plan.filter(function (e) { return e.w === w; })[0] || plan[plan.length - 1];
+    if (cur) cur.v += rem; else plan.push({ w: w, v: rem, tipo: s.semanas[w] > 0 ? 'extra' : 'esta semana' });
+  }
+  return plan;
+}
+function textoPlan(plan) {
+  return plan.map(function (e) { return 'Semana ' + e.w + ' (' + e.tipo + '): ' + cop(e.v); }).join(' · ');
+}
+function doPlan(id, plan) {
+  var s = est(id), T = S.T, blocks = 0;
+  plan.forEach(function (e) {
+    var ya = s.semanas[e.w] || 0;
+    e.ms = [addMovL(s, 'MANO_AMIGA', 'Aporte Mano Amiga', e.v, '', e.w)];
+    if (!ya && T.cfg.puntosAporte > 0) { e.ms.push(addMovL(s, 'PUNTOS', 'Constancia Mano Amiga', T.cfg.puntosAporte, 'Semana ' + e.w, e.w)); blocks += T.cfg.puntosAporte; }
+  });
+  var total = plan.reduce(function (t, e) { return t + e.v; }, 0);
+  var msg = s.corto + ': ' + cop(total) + (plan.length > 1 ? ' en ' + plan.length + ' semanas' : '') + (blocks ? ' · +' + blocks + ' ' + un(blocks) : '');
+  modal(null); render(); toast(msg);
+  (function run(i) {
+    if (i >= plan.length) return;
+    var e = plan[i];
+    bg('aporte', { id: id, valor: e.v, semana: e.w, forzar: true }, function (r) {
+      setIds(e.ms, r.ids);
+      if (r.bono) { var b = addMovL(s, 'PUNTOS', 'Racha Mano Amiga', r.bono, r.racha + ' semanas seguidas', e.w); b.id = r.ids[r.ids.length - 1]; b.tmp = false; }
+      render(); run(i + 1);
+    });
+  })(0);
+}
+
 /* ───────── Acciones ───────── */
 var A = {
   pin: function () { pinModal(); },
@@ -708,18 +747,30 @@ var A = {
   aporteOtro: function (d) {
     var id = (d && d.id) || S.cur, s = est(id), w = S.cur ? S.T.sem : (S.maSem || S.T.sem), extra = !!(d && d.extra);
     S.ao = { id: id, extra: extra };
-    modal('<h2>' + (extra ? 'Aporte extra' : 'Aporte a Mano Amiga') + '</h2><p style="margin:-4px 0 14px;color:var(--mut)">' + esc(s.nombre) + (extra ? ' · ya aportó esta semana; el extra suma al total, sin block adicional.' : '') + '</p>' +
+    modal('<h2>' + (extra ? 'Aporte extra' : 'Aporte a Mano Amiga') + '</h2><p style="margin:-4px 0 14px;color:var(--mut)">' + esc(s.nombre) + (extra ? ' · ya aportó esta semana. Lo que traiga cubre semanas pendientes o adelanta las siguientes.' : '') + '</p>' +
       '<label>Monto (COP)<input id="ao-v" type="number" inputmode="numeric" min="1000" step="1000" value="' + S.T.cfg.aporte + '"></label>' +
       '<div class="step"><button data-a="aoStep" data-d="-1000">−</button><b id="ao-b">' + cop(S.T.cfg.aporte) + '</b><button data-a="aoStep" data-d="1000">+</button></div>' +
       '<label>Semana<input id="ao-w" type="number" inputmode="numeric" min="1" step="1" value="' + w + '"></label>' +
+      '<p id="ao-plan" style="margin:0 0 14px;font-size:14px;color:var(--mut);line-height:1.4"></p>' +
       '<button class="pri" data-a="aoSave">Registrar</button><button class="sec" style="width:100%;margin-top:8px" data-a="close">Cancelar</button>');
-    $('ao-v').addEventListener('input', function () { $('ao-b').textContent = cop(+$('ao-v').value || 0); });
+    $('ao-v').addEventListener('input', function () { $('ao-b').textContent = cop(+$('ao-v').value || 0); A.aoPlan(); });
+    $('ao-w').addEventListener('input', function () { A.aoPlan(); });
+    A.aoPlan();
+  },
+  aoPlan: function () {
+    var a = S.ao, p = $('ao-plan'); if (!a || !p) return;
+    var v = +$('ao-v').value || 0, w = Math.max(1, +$('ao-w').value || S.T.sem);
+    p.textContent = v > 0 ? 'Se registrará: ' + textoPlan(planAporte(est(a.id), v, w)) : '';
   },
   aoStep: function (d) {
     var i = $('ao-v'), v = Math.round((+i.value || 0) / 1000) * 1000 + (+d.d);
-    v = Math.max(1000, v); i.value = v; $('ao-b').textContent = cop(v);
+    v = Math.max(1000, v); i.value = v; $('ao-b').textContent = cop(v); A.aoPlan();
   },
-  aoSave: function () { var a = S.ao || { id: S.cur }; doAporte(a.id, +$('ao-v').value, +$('ao-w').value, !!a.extra); },
+  aoSave: function () {
+    var a = S.ao || { id: S.cur }, v = Math.round(+$('ao-v').value || 0), w = Math.max(1, +$('ao-w').value || S.T.sem);
+    if (!(v > 0)) { toast('El monto debe ser mayor que cero.'); return; }
+    doPlan(a.id, planAporte(est(a.id), v, w));
+  },
   canje: function () {
     var s = est(S.cur);
     modal('<h2>Canjear premio · ' + s.saldo + ' ' + ICO + '</h2>' + S.T.premios.map(function (p, i) {
