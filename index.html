@@ -476,9 +476,8 @@ var ARTE = window.BV_ARTE || (window.BV_STATIC ? 'arte-' : 'https://darioocampo9
 var CUBE = '<svg class="cube" viewBox="0 0 24 24"><path d="M12 2 22 7 12 12 2 7z" fill="#ffe27a"/><path d="M2 7 12 12v10L2 17z" fill="#d9a514"/><path d="M22 7 12 12v10l10-5z" fill="#a87b0a"/><path d="M12 2 22 7v10l-10 5-10-5V7z" fill="none" stroke="#5c4300" stroke-width=".8"/></svg>';
 var ART = ['bosque', 'mina', 'oceano', 'desierto', 'nieve', 'cueva'];
 /* Avatares personalizados: id del estudiante -> imagen (arte-<x>.jpg para la tarjeta, av-<x>.jpg para la foto de perfil).
-   Dibujos sin dueño todavía: av01 criatura verde, av02 vino tinto, av04 sombra negra, av05 monstruo claro,
-   av07 futbolista, av08 blanco y verde, av10 explorador celeste, av11 multicolor. */
-var ART_DE = { E04: 'pablo', E03: 'av12', E05: 'av03', E08: 'av09', E11: 'av06' };
+   Sin dueño todavía: av01 criatura verde. (av02 y av05 fueron reemplazadas por 'fede' y 'zuluaga'.) */
+var ART_DE = { E01: 'fede', E03: 'av12', E04: 'pablo', E05: 'av03', E06: 'av04', E08: 'av09', E10: 'av11', E11: 'av06', E13: 'av08', E17: 'av07', E18: 'av10', E19: 'zuluaga' };
 function vCards() {
   var T = S.T, k = 0, lista = T.estudiantes.map(function (s, i) {
     return { s: s, n: ('0' + (i + 1)).slice(-2), art: ART_DE[s.id] || ART[(k++) % ART.length] };
