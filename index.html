@@ -477,7 +477,7 @@ var CUBE = '<svg class="cube" viewBox="0 0 24 24"><path d="M12 2 22 7 12 12 2 7z
 var ART = ['bosque', 'mina', 'oceano', 'desierto', 'nieve', 'cueva'];
 /* Avatares personalizados: id del estudiante -> imagen (arte-<x>.jpg para la tarjeta, av-<x>.jpg para la foto de perfil).
    Sin dueño todavía: av01 criatura verde. (av02 y av05 fueron reemplazadas por 'fede' y 'zuluaga'.) */
-var ART_DE = { E01: 'fede', E03: 'av12', E04: 'pablo', E05: 'av03', E06: 'av04', E08: 'av09', E10: 'av11', E11: 'av06', E13: 'av08', E17: 'av07', E18: 'av10', E19: 'zuluaga' };
+var ART_DE = { E01: 'fede', E02: 'jeronimo', E03: 'av12', E04: 'pablo', E05: 'av03', E06: 'av04', E08: 'av09', E09: 'maya', E10: 'av11', E11: 'av06', E13: 'av08', E16: 'ray', E17: 'av07', E18: 'av10', E19: 'zuluaga' };
 function vCards() {
   var T = S.T, k = 0, lista = T.estudiantes.map(function (s, i) {
     return { s: s, n: ('0' + (i + 1)).slice(-2), art: ART_DE[s.id] || ART[(k++) % ART.length] };
