@@ -38,6 +38,14 @@ button{cursor:pointer;border:0;background:none}
 .ic{width:1.05em;height:1.05em;display:inline-block;vertical-align:-.16em;flex:none;object-fit:contain}
 .logo .ic{width:70%;height:70%}
 .nl{display:inline-block;min-width:1.7em;margin-right:6px;padding:1px 0;border-radius:6px;background:rgba(127,127,127,.16);color:var(--mut,#777);font-style:normal;font-size:.78em;font-weight:700;text-align:center;font-variant-numeric:tabular-nums}.tv .avw{position:relative;flex:none;height:76%;max-height:4.3vw;aspect-ratio:1}.tv .avw .av{height:100%!important;width:100%;max-height:none!important}.tv .nl{position:absolute;left:-.35vw;bottom:-.35vw;margin:0;min-width:1.5vw;padding:.05vw .25vw;font-size:.95vw;background:#0c0c12;color:#fff;text-shadow:none;border-radius:0}.tv .kid .kn b{font-weight:inherit;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wk{margin:2px 0 12px}.wm{margin-bottom:10px}.wh{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:14px;margin-bottom:6px}.wh span{color:var(--mut);font-size:13px}.wh .ok{color:var(--ok);font-weight:700}
+.ws{display:flex;flex-wrap:wrap;gap:6px}.ws i,.wl i{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:9px;font-style:normal;font-weight:700;font-size:14px;background:#eef0f4;color:#8a90a0;border:2px solid transparent}
+.ws i.si,.wl i.si{background:#e3f6e8;color:var(--ok)}.ws i.falta,.wl i.falta{background:#fdecec;color:#c0392b}.ws i.vac,.wl i.vac{background:repeating-linear-gradient(45deg,#f1f1f1 0 4px,#e2e2e2 4px 8px);color:#999}.ws i.cur,.wl i.cur{border-color:var(--navy)}
+.wl{margin:6px 0 0;font-size:12px;color:var(--mut);display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px}.wl i{width:20px;height:20px;font-size:11px;border-radius:6px;border-width:1.5px}
+.apl div{display:grid;grid-template-columns:64px auto 1fr;gap:4px 10px;align-items:baseline;padding:7px 0;border-top:1px solid var(--line);font-size:14px}.apl div:first-child{border-top:0}.apl span{color:var(--mut);font-size:13px}.apl small{color:var(--mut);font-size:13px;text-align:right}
+.v small.blk{display:block;font-size:12px;color:var(--ok);font-weight:700}
+.ksum{display:flex;gap:12px;align-items:center;margin-bottom:12px}.ksum .av{width:64px;height:64px;border-radius:12px;object-fit:cover;flex:none}.ksum i.av{display:flex;align-items:center;justify-content:center;background:#3a3b4d;color:#fff;font-style:normal;font-size:28px;font-weight:700}
+.tv .kid{cursor:pointer}
 .bank .av{position:absolute;top:14px;right:14px;width:72px;height:72px;object-fit:cover;border-radius:12px;border:2px solid rgba(255,255,255,.7);z-index:1}.bank i.av{display:none}.bank .lab,.bank .who{padding-right:84px}
 .bank .who{font-size:22px;font-weight:700;margin:0 0 2px}
 .bank .lab{font-size:12px;color:#b9c3dd;text-transform:uppercase;letter-spacing:.06em}
@@ -369,6 +377,75 @@ function metaCard(m) {
   return '<div class="card"><p class="h">Meta del grupo</p><div class="row" style="justify-content:space-between;margin-bottom:8px"><b>' + m.actual + ' / ' + m.objetivo + ' ' + ICO + '</b><span>' + pct + '%</span></div>' +
     '<div class="bar"><i style="width:' + pct + '%"></i></div><p style="margin:10px 0 0;color:var(--mut);font-size:14px">Premio: ' + esc(m.premio) + '</p></div>';
 }
+/* ───────── Mano Amiga: aportes agrupados y calendario de semanas ───────── */
+var MESES = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+function cfgA() { return (S.T || S.pub).cfg; }
+function sinClase() { var o = {}; (cfgA().sinClase || []).forEach(function (k) { o[k] = true; }); return o; }
+function mesSem(k) { var c = cfgA(); if (!c.inicio) return ''; var d = new Date(c.inicio + (k - 1) * 6048e5 + 3 * 864e5); return d.getFullYear() * 100 + d.getMonth(); }
+function rango(ws) {
+  ws = ws.slice().sort(function (a, b) { return a - b; });
+  var out = [], i = 0;
+  while (i < ws.length) { var j = i; while (j + 1 < ws.length && ws[j + 1] === ws[j] + 1) j++; out.push(j > i ? ws[i] + '–' + ws[j] : String(ws[i])); i = j + 1; }
+  return (ws.length > 1 ? 'semanas ' : 'semana ') + out.join(', ');
+}
+/** Agrupa las filas de un mismo aporte (mismo pago) para mostrarlas como una sola línea. */
+function pagos(eid, movs) {
+  var a = cfgA().aporte || 2000, gs = [], cur = null, last = 0;
+  var lista = movs.filter(function (m) { return m.eid === eid; }).slice().sort(function (x, y) { return x.t - y.t; });
+  lista.forEach(function (m) {
+    if (m.cuenta === 'PUNTOS') return;
+    var tag = (String(m.nota).match(/pago:([\w-]+)/) || [])[1] || '';
+    var mismo = cur && (tag ? cur.tag === tag : (!cur.tag && m.t - last <= 12000));
+    if (!mismo) { cur = { tag: tag, t0: m.t, t1: m.t, total: 0, weeks: [], extra: 0, blocks: 0, ids: [], tmp: false }; gs.push(cur); }
+    cur.t1 = m.t; last = m.t; cur.total += m.valor; cur.ids.push(m.id); if (m.tmp) cur.tmp = true;
+    if (/extra/i.test(m.nota + ' ' + m.categoria)) cur.extra += m.valor; else if (cur.weeks.indexOf(m.semana) < 0) cur.weeks.push(m.semana);
+  });
+  lista.forEach(function (m) {
+    if (m.cuenta !== 'PUNTOS' || m.categoria !== 'Constancia Mano Amiga') return;
+    for (var i = gs.length - 1; i >= 0; i--) if (gs[i].weeks.indexOf(m.semana) >= 0 && m.t >= gs[i].t0 - 60000) { gs[i].blocks += m.valor; gs[i].ids.push(m.id); if (m.tmp) gs[i].tmp = true; break; }
+  });
+  gs.forEach(function (g) { var exceso = g.total - g.extra - a * g.weeks.length; if (exceso > 0) g.extra += exceso; });
+  return gs;
+}
+function pagoRow(g, undo) {
+  var det = (g.weeks.length ? rango(g.weeks) : 'aporte extra') + (g.weeks.length && g.extra ? ' · ' + cop(g.extra) + ' extra' : '');
+  return '<div class="mv"><div class="d"><b>Aporte Mano Amiga</b><small>' + fecha(g.t0) + ' · ' + det + '</small></div>' +
+    '<div class="v cop" style="text-align:right">' + cop(g.total) + (g.blocks ? '<small class="blk">+' + g.blocks + ' ' + ICO + '</small>' : '') + '</div>' +
+    (undo ? (g.tmp ? '<span style="color:var(--mut);font-size:12px;padding:6px 10px">Guardando…</span>' : '<button class="sec" style="padding:6px 10px;font-size:12px" data-a="undoPago" data-ids="' + esc(g.ids.join(',')) + '" data-v="' + g.total + '">Anular</button>') : '') + '</div>';
+}
+/** Historial del estudiante: los aportes van agrupados y lo demás igual que antes. */
+function historial(eid, movs, n, undo) {
+  var gs = pagos(eid, movs), usados = {}, items = [];
+  gs.forEach(function (g) { g.ids.forEach(function (id) { usados[id] = 1; }); items.push({ t: g.t1, h: pagoRow(g, undo) }); });
+  movs.forEach(function (m) { if (m.eid === eid && !usados[m.id]) items.push({ t: m.t, h: mvRow(m, undo && !m.auto) }); });
+  items.sort(function (a, b) { return b.t - a.t; });
+  return items.length ? items.slice(0, n).map(function (x) { return x.h; }).join('') : '<p style="color:var(--mut);margin:0">Aún no hay movimientos.</p>';
+}
+/** Calendario de semanas por mes: qué semanas están cubiertas y si el mes ya está completo. */
+function semanasHtml(s, sem) {
+  var sc = sinClase(), c = cfgA(), maxW = sem + 4, k, meses = [], porMes = {};
+  if (!c.inicio) return '';
+  for (k in s.semanas) if (+k > maxW && s.semanas[k] > 0) maxW = +k;
+  var mesHoy = (function () { var d = new Date(); return d.getFullYear() * 100 + d.getMonth(); })();
+  for (k = 1; k <= maxW; k++) { var mk = mesSem(k); if (!porMes[mk]) { porMes[mk] = []; meses.push(mk); } porMes[mk].push(k); }
+  return '<div class="wk">' + meses.map(function (mk) {
+    var ws = porMes[mk], clase = ws.filter(function (w) { return !sc[w]; });
+    var listo = clase.length && clase.every(function (w) { return s.semanas[w] > 0; });
+    var hechas = clase.filter(function (w) { return s.semanas[w] > 0; }).length;
+    var badge = listo ? (mk <= mesHoy ? '<span class="ok">✓ Mes completo</span>' : '<span class="ok">✓ Cubierto · bono al empezar el mes</span>') : '<span>' + hechas + ' de ' + clase.length + ' semanas</span>';
+    return '<div class="wm"><div class="wh"><b>' + MESES[mk % 100] + '</b>' + badge + '</div><div class="ws">' + ws.map(function (w) {
+      var cls = sc[w] ? 'vac' : s.semanas[w] > 0 ? 'si' : w < sem ? 'falta' : 'fut';
+      return '<i class="' + cls + (w === sem ? ' cur' : '') + '" title="Semana ' + w + '">' + (sc[w] ? '–' : w) + '</i>';
+    }).join('') + '</div></div>';
+  }).join('') + '<p class="wl">Semanas: <i class="si">1</i> pagada <i class="falta">2</i> pendiente <i class="fut">5</i> por venir <i class="fut cur">3</i> esta semana' + (Object.keys(sc).length ? ' <i class="vac">–</i> sin clase' : '') + '</p></div>';
+}
+function aportesHtml(s, movs) {
+  var gs = pagos(s.id, movs).reverse();
+  if (!gs.length) return '<p style="color:var(--mut);margin:6px 0 0;font-size:14px">Aún no ha aportado.</p>';
+  return '<div class="apl">' + gs.map(function (g) {
+    return '<div><span>' + fecha(g.t0) + '</span><b>' + cop(g.total) + '</b><small>' + (g.weeks.length ? rango(g.weeks) : 'aporte extra') + (g.weeks.length && g.extra ? ' + ' + cop(g.extra) + ' extra' : '') + '</small></div>';
+  }).join('') + '</div>';
+}
 function mvRow(m, undo) {
   var ma = m.cuenta !== 'PUNTOS';
   return '<div class="mv"><div class="d"><b>' + esc(m.categoria) + '</b><small>' + fecha(m.t) + (m.nota ? ' · ' + esc(m.nota) : '') + '</small></div>' +
@@ -389,8 +466,10 @@ function vPublic() {
       '<button class="sec" data-a="pin">Soy el profesor</button></div>';
   }
   var s = p.estudiante;
-  return '<div class="wrap" style="max-width:560px">' + bankCard(s, p.sem) + metaCard(p.meta) +
-    '<div class="card"><p class="h">Últimos movimientos</p>' + (p.movs.length ? p.movs.map(function (m) { return mvRow(m, false); }).join('') : '<p style="color:var(--mut);margin:0">Aún no hay movimientos.</p>') + '</div>' +
+  return '<div class="wrap" style="max-width:560px">' + bankCard(s, p.sem) +
+    '<div class="card"><p class="h">Mano Amiga</p>' + semanasHtml(s, p.sem) + '<p class="h" style="margin:16px 0 4px">Mis aportes · total ' + cop(s.aporteTotal) + '</p>' + aportesHtml(s, p.movs) + '</div>' +
+    metaCard(p.meta) +
+    '<div class="card"><p class="h">Últimos movimientos</p>' + historial(s.id, p.movs, 12, false) + '</div>' +
     '<div class="foot"><button data-a="pin">Acceso del profesor</button></div></div>';
 }
 function vFicha() {
@@ -402,15 +481,15 @@ function vFicha() {
     var b = '<button class="btn ' + (c.valor < 0 ? 'minus' : '') + '" data-a="' + (c.valor < 0 ? 'disc' : 'gain') + '" data-i="' + i + '"><span class="pt">' + sg(c.valor) + '</span>' + esc(c.nombre) + '</button>';
     if (c.valor < 0) desc += b; else gana += b;
   });
-  var mv = T.movs.filter(function (m) { return m.eid === s.id; }).slice(0, 8);
   return bankCard(s, T.sem) +
-    '<div class="card"><p class="h">Mano Amiga · semana ' + T.sem + '</p><div class="grid">' +
+    '<div class="card"><p class="h">Mano Amiga · semana ' + T.sem + '</p>' + semanasHtml(s, T.sem) + '<div class="grid">' +
     '<button class="btn ma ' + (ya ? 'done' : '') + '" data-a="aporte" data-v="' + T.cfg.aporte + '"><span class="pt">' + (ya ? '✓' : '+') + '</span>' + (ya ? 'Ya aportó ' + cop(s.semanas[T.sem]) : 'Aportó ' + cop(T.cfg.aporte)) + '</button>' +
-    '<button class="btn ma" data-a="aporteOtro"><span class="pt">$</span>Otro monto o semana</button></div></div>' +
+    '<button class="btn ma" data-a="aporteOtro"><span class="pt">$</span>Otro monto</button></div>' +
+    '<p class="h" style="margin:16px 0 4px">Aportes · total ' + cop(s.aporteTotal) + '</p>' + aportesHtml(s, T.movs) + '</div>' +
     '<div class="card"><p class="h">Ganar ' + esc(mon()) + '</p><div class="grid">' + gana +
     '<button class="btn" data-a="libre"><span class="pt">✎</span>Otro (registro libre)</button></div></div>' +
     '<div class="card"><p class="h">Canjear y descontar</p><div class="grid"><button class="btn" data-a="canje"><span class="pt">🎁</span>Canjear premio</button>' + desc + '</div></div>' +
-    '<div class="card"><p class="h">Últimos movimientos</p>' + (mv.length ? mv.map(function (m) { return mvRow(m, true); }).join('') : '<p style="color:var(--mut);margin:0">Aún no hay movimientos.</p>') + '</div>';
+    '<div class="card"><p class="h">Últimos movimientos</p>' + historial(s.id, T.movs, 10, true) + '</div>';
 }
 function vGrupo() {
   var T = S.T, n = Object.keys(S.sel).length;
@@ -488,7 +567,7 @@ function vTablero() {
     '<div class="fr">' + (p >= 1 ? 'Goal reached! 🎉' : 'Team goal') + '</div><div class="es">Meta del grupo: ' + esc(m.premio) + '</div></div>' +
     '<div class="kids"><div class="fr">Our blocks<small>Nuestros bloques</small></div><div class="kg">';
   T.estudiantes.forEach(function (s, i) {
-    h += '<div class="kid ' + (max > 0 && s.ganadasSemana === max ? 'hot' : '') + '"><span class="avw">' + avatar(s) + '<i class="nl">' + (i + 1) + '</i></span><div class="kn"><b>' + esc(s.corto) + '</b>' + (S.hide ? '' : '<span>' + s.saldo + ' ' + ICO + '</span>') + '</div></div>';
+    h += '<div class="kid ' + (max > 0 && s.ganadasSemana === max ? 'hot' : '') + '" data-a="kidSum" data-id="' + s.id + '" role="button"><span class="avw">' + avatar(s) + '<i class="nl">' + (i + 1) + '</i></span><div class="kn"><b>' + esc(s.corto) + '</b>' + (S.hide ? '' : '<span>' + s.saldo + ' ' + ICO + '</span>') + '</div></div>';
   });
   h += '</div></div><div class="bot"><div>Mano Amiga: ' + cop(T.totalMA) + '<small>Esta semana aportaron ' + c + ' de ' + T.estudiantes.length + '</small></div>' +
     '<div class="rec">' + ICO + ' <span id="rec">' + esc(r.length ? r[S.recI % r.length] : 'Great job, 4AM!') + '</span><small>Great job! · Reconocimientos de la semana</small></div></div></div>';
@@ -690,40 +769,43 @@ function doAporte(id, valor, w, forzar) {
     ask('Ya aportó en la semana ' + w, s.nombre + ' ya tiene ' + cop(ya) + ' registrados esa semana. ¿Sumar otro aporte de ' + cop(valor) + '?', 'Sí, sumar', function () { doAporte(id, valor, w, true); });
     return;
   }
-  var ms = [addMovL(s, 'MANO_AMIGA', 'Aporte Mano Amiga', valor, '', w)];
+  var pago = Date.now().toString(36);
+  var ms = [addMovL(s, 'MANO_AMIGA', 'Aporte Mano Amiga', valor, 'pago:' + pago, w)];
   if (!ya && T.cfg.puntosAporte > 0) ms.push(addMovL(s, 'PUNTOS', 'Constancia Mano Amiga', T.cfg.puntosAporte, 'Semana ' + w, w));
   var msg = s.corto + ': ' + cop(valor) + (ms.length > 1 ? ' · +' + T.cfg.puntosAporte + ' ' + un(T.cfg.puntosAporte) + '' : '');
   modal(null); render(); toast(msg);
-  bg('aporte', { id: id, valor: valor, semana: w, forzar: true }, function (r) {
+  bg('aporte', { id: id, valor: valor, semana: w, forzar: true, pago: pago }, function (r) {
     setIds(ms, r.ids);
-    if (r.bono) { var b = addMovL(s, 'PUNTOS', 'Racha Mano Amiga', r.bono, r.racha + ' semanas seguidas', w); b.id = r.ids[r.ids.length - 1]; b.tmp = false; }
-    toastIds(msg, msg + (r.bono ? ' · racha +' + r.bono + ' ' + un(r.bono) + '' : ''), r.ids); render();
+    toastIds(msg, msg, r.ids); render();
   });
 }
 
 /* Reparte un aporte en cuotas semanales: primero semanas pendientes (hasta 3 atrás),
    luego la semana actual y después semanas adelantadas (hasta 4). Lo que sobre queda como extra. */
 function planAporte(s, total, w) {
-  var a = S.T.cfg.aporte, rem = Math.round(total), plan = [], k;
-  function libre(k) { return !(s.semanas[k] > 0) && !plan.some(function (e) { return e.w === k; }); }
+  var a = S.T.cfg.aporte, rem = Math.round(total), plan = [], k, sc = sinClase();
+  function libre(k) { return !sc[k] && !(s.semanas[k] > 0) && !plan.some(function (e) { return e.w === k; }); }
   for (k = Math.max(1, w - 3); k < w; k++) if (rem >= a && libre(k)) { plan.push({ w: k, v: a, tipo: 'pendiente' }); rem -= a; }
   if (rem >= a && libre(w)) { plan.push({ w: w, v: a, tipo: 'esta semana' }); rem -= a; }
   for (k = w + 1; k <= w + 4 && rem >= a; k++) if (libre(k)) { plan.push({ w: k, v: a, tipo: 'adelantada' }); rem -= a; }
   if (rem > 0) {
-    var cur = plan.filter(function (e) { return e.w === w; })[0] || plan[plan.length - 1];
-    if (cur) cur.v += rem; else plan.push({ w: w, v: rem, tipo: s.semanas[w] > 0 ? 'extra' : 'esta semana' });
+    if (libre(w)) plan.push({ w: w, v: rem, tipo: 'esta semana' });          // monto menor a lo sugerido: cubre la semana actual
+    else plan.push({ w: w, v: rem, tipo: 'extra', extra: true });           // lo que sobra es aporte extra, sin block
   }
   return plan;
 }
 function textoPlan(plan) {
-  return plan.map(function (e) { return 'Semana ' + e.w + ' (' + e.tipo + '): ' + cop(e.v); }).join(' · ');
+  var ws = plan.filter(function (e) { return !e.extra; }), ex = plan.filter(function (e) { return e.extra; })[0];
+  var b = ws.length * (S.T.cfg.puntosAporte || 0);
+  return (ws.length ? 'cubre ' + rango(ws.map(function (e) { return e.w; })) + (b ? ' (+' + b + ' ' + un(b) + ')' : '') : '') +
+    (ex ? (ws.length ? ' y ' : '') + cop(ex.v) + ' como aporte extra (sin block' + (ws.length ? '; solo se adelantan hasta 4 semanas' : '') + ')' : '') + '.';
 }
 function doPlan(id, plan) {
-  var s = est(id), T = S.T, blocks = 0;
+  var s = est(id), T = S.T, blocks = 0, pago = Date.now().toString(36);
   plan.forEach(function (e) {
     var ya = s.semanas[e.w] || 0;
-    e.ms = [addMovL(s, 'MANO_AMIGA', 'Aporte Mano Amiga', e.v, '', e.w)];
-    if (!ya && T.cfg.puntosAporte > 0) { e.ms.push(addMovL(s, 'PUNTOS', 'Constancia Mano Amiga', T.cfg.puntosAporte, 'Semana ' + e.w, e.w)); blocks += T.cfg.puntosAporte; }
+    e.ms = [addMovL(s, 'MANO_AMIGA', e.extra ? 'Aporte extra Mano Amiga' : 'Aporte Mano Amiga', e.v, 'pago:' + pago + (e.extra ? ' extra' : ''), e.w)];
+    if (!ya && !e.extra && T.cfg.puntosAporte > 0) { e.ms.push(addMovL(s, 'PUNTOS', 'Constancia Mano Amiga', T.cfg.puntosAporte, 'Semana ' + e.w, e.w)); blocks += T.cfg.puntosAporte; }
   });
   var total = plan.reduce(function (t, e) { return t + e.v; }, 0);
   var msg = s.corto + ': ' + cop(total) + (plan.length > 1 ? ' en ' + plan.length + ' semanas' : '') + (blocks ? ' · +' + blocks + ' ' + un(blocks) : '');
@@ -731,9 +813,8 @@ function doPlan(id, plan) {
   (function run(i) {
     if (i >= plan.length) return;
     var e = plan[i];
-    bg('aporte', { id: id, valor: e.v, semana: e.w, forzar: true }, function (r) {
+    bg('aporte', { id: id, valor: e.v, semana: e.w, forzar: true, pago: pago, extra: !!e.extra }, function (r) {
       setIds(e.ms, r.ids);
-      if (r.bono) { var b = addMovL(s, 'PUNTOS', 'Racha Mano Amiga', r.bono, r.racha + ' semanas seguidas', e.w); b.id = r.ids[r.ids.length - 1]; b.tmp = false; }
       render(); run(i + 1);
     });
   })(0);
@@ -829,6 +910,17 @@ var A = {
     modal(null); render(); toast(msg);
     bg('canjear', { id: s.id, premio: p.nombre }, function (r) { setIds([m], r.ids); toastIds(msg, msg, r.ids); render(); });
   },
+  undoPago: function (d) {
+    ask('Anular este aporte', 'Se anula el aporte completo de ' + cop(+d.v) + ' con sus blocks. Las filas quedan en la hoja marcadas como anuladas.', 'Sí, anular', function () { A.undo(d); });
+  },
+  kidSum: function (d) {
+    var s = est(d.id), T = S.T; if (!s) return;
+    modal('<div class="ksum">' + avatar(s) + '<div><h2 style="margin:0">' + esc(s.nombre) + '</h2><p style="margin:2px 0 0;color:var(--mut)">' + s.saldo + ' ' + ICO + ' ' + esc(mon()) + ' · Mano Amiga ' + cop(s.aporteTotal) + '</p></div></div>' +
+      semanasHtml(s, T.sem) + '<p class="h" style="margin:14px 0 4px">Aportes</p>' + aportesHtml(s, T.movs) +
+      '<p class="h" style="margin:14px 0 0">Últimos movimientos</p>' + historial(s.id, T.movs, 5, false) +
+      '<button class="pri" style="margin-top:14px" data-a="kidOpen" data-id="' + s.id + '">Abrir su ficha</button><button class="sec" style="width:100%;margin-top:8px" data-a="close">Cerrar</button>');
+  },
+  kidOpen: function (d) { modal(null); if (document.fullscreenElement) document.exitFullscreen().catch(function () {}); S.tab = 'grupo'; S.cur = d.id; render(); window.scrollTo(0, 0); },
   undo: function (d) {
     var ids = String(d.ids).split(',');
     $('toast').className = '';
