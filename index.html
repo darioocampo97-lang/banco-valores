@@ -41,7 +41,7 @@ button{cursor:pointer;border:0;background:none}
 .wk{margin:2px 0 12px}.wm{margin-bottom:10px}.wh{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:14px;margin-bottom:6px}.wh span{color:var(--mut);font-size:13px}.wh .ok{color:var(--ok);font-weight:700}
 .ws{display:flex;flex-wrap:wrap;gap:6px}.ws i,.wl i{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:9px;font-style:normal;font-weight:700;font-size:14px;background:#eef0f4;color:#8a90a0;border:2px solid transparent}
 .ws i.si,.wl i.si{background:#e3f6e8;color:var(--ok)}.ws i.falta,.wl i.falta{background:#fdecec;color:#c0392b}.ws i.vac,.wl i.vac{background:repeating-linear-gradient(45deg,#f1f1f1 0 4px,#e2e2e2 4px 8px);color:#999}.ws i.cur,.wl i.cur{border-color:var(--navy)}
-.wl{margin:6px 0 0;font-size:12px;color:var(--mut);display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px}.wl i{width:20px;height:20px;font-size:11px;border-radius:6px;border-width:1.5px}
+.wl{margin:6px 0 0;font-size:12px;color:var(--mut);display:grid;grid-template-columns:1fr 1fr;gap:6px 10px}.wl span{display:flex;align-items:center;gap:6px}.wl i{width:18px;height:18px;border-radius:5px;border-width:2px;flex:none}.wl2{margin:8px 0 0;font-size:12px;color:var(--mut);line-height:1.4}
 .apl div{display:grid;grid-template-columns:64px auto 1fr;gap:4px 10px;align-items:baseline;padding:7px 0;border-top:1px solid var(--line);font-size:14px}.apl div:first-child{border-top:0}.apl span{color:var(--mut);font-size:13px}.apl small{color:var(--mut);font-size:13px;text-align:right}
 .wh b small{font-weight:500;color:var(--mut);font-size:12px;margin-left:4px}.wvac{margin:0 0 10px;padding:8px 10px;border-radius:9px;font-size:13px;color:#777;background:repeating-linear-gradient(45deg,#f4f4f4 0 6px,#ececec 6px 12px)}
 .st .n{display:flex;align-items:center}.st .av,.list .av{width:34px;height:34px;border-radius:8px;object-fit:cover;flex:none;margin-right:10px}.st i.av{display:inline-flex;align-items:center;justify-content:center;background:#e6e8ee;color:#6b7080;font-style:normal;font-weight:700;font-size:15px}
@@ -50,6 +50,7 @@ button{cursor:pointer;border:0;background:none}
 .tv .kid.gold{position:relative}.tv .kid.gold:after{content:'★';position:absolute;right:.5vw;top:.1vw;color:#ffe066;font-size:1.7vw;text-shadow:0 0 .6vw #ffbf00}
 .tv .kid.gold .avw .av{outline:.25vw solid #ffd84a;outline-offset:0;box-shadow:0 0 1vw rgba(255,216,74,.9)}
 @keyframes oro{0%,100%{box-shadow:0 0 .8vw .1vw rgba(255,215,64,.6)}50%{box-shadow:0 0 1.8vw .4vw rgba(255,215,64,1)}}
+.mx{display:flex;gap:4px;background:#eef0f4;border-radius:10px;padding:3px}.mx button{border:0;background:transparent;padding:6px 12px;border-radius:8px;font-weight:700;font-size:14px;color:var(--mut);cursor:pointer}.mx button.on{background:#fff;color:var(--navy);box-shadow:0 1px 3px rgba(0,0,0,.15)}
 .v small.blk{display:block;font-size:12px;color:var(--ok);font-weight:700}
 .ksum{display:flex;gap:12px;align-items:center;margin-bottom:12px}.ksum .av{width:64px;height:64px;border-radius:12px;object-fit:cover;flex:none}.ksum i.av{display:flex;align-items:center;justify-content:center;background:#3a3b4d;color:#fff;font-style:normal;font-size:28px;font-weight:700}
 .tv .kid{cursor:pointer}
@@ -373,7 +374,7 @@ function vFlash() {
 function vTop(back) {
   var c = S.T.cfg;
   return '<div class="top">' + (back ? '<button class="lnk" data-a="back">‹ Grupo</button>' : '<div class="logo">' + ICO + '</div>') +
-    '<div><h1>' + esc(c.banco) + '</h1><small>Semana ' + S.T.sem + '</small></div><div class="sp"></div>' + (back ? '<button class="lnk" data-a="scan">▣ Escanear</button>' : '') + '</div>';
+    '<div><h1>' + esc(c.banco) + '</h1><small>Semana ' + semLabel(S.T.sem) + ' · ' + fechasSem(S.T.sem) + '</small></div><div class="sp"></div>' + (back ? '<button class="lnk" data-a="scan">▣ Escanear</button>' : '') + '</div>';
 }
 function vNav() {
   var t = [['grupo', '☰', 'Grupo'], ['mano', '♥', 'Mano Amiga'], ['scan', '▣', 'Escanear'], ['tablero', ICO, 'Tablero'], ['mas', '⋯', 'Más']];
@@ -390,12 +391,21 @@ function sinClase() { var o = {}; (cfgA().sinClase || []).forEach(function (k) {
 /** Bloques de racha: semanas de clase de N en N; las vacaciones se saltan (igual que en el servidor). */
 function bloques() { var n = cfgA().rachaSem || 4, sc = sinClase(), out = [], cur = []; for (var k = 1; k <= 80; k++) { if (sc[k]) continue; cur.push(k); if (cur.length === n) { out.push(cur); cur = []; } } return out; }
 function diaSem(k, d) { return new Date(cfgA().inicio + (k - 1) * 6048e5 + d * 864e5); }
+/** Número de semana académica del colegio (Teamup): las semanas de vacaciones del colegio no tienen número. */
+function semLabel(k) { var c = cfgA(); if (!c.acad1) return k; var sn = {}, n = c.acad1 - 1; (c.sinNumero || []).forEach(function (x) { sn[x] = 1; }); if (sn[k]) return '–'; for (var i = 1; i <= k; i++) if (!sn[i]) n++; return n; }
+function semDeLabel(a) { for (var k = 1; k <= 150; k++) if (semLabel(k) === +a) return k; return 0; }
+function fechasSem(k) { return fCorta(diaSem(k, 0)) + ' – ' + fCorta(diaSem(k, 4)); }
 function fCorta(dt) { try { return dt.toLocaleDateString('es-CO', { day: 'numeric', month: 'short' }); } catch (e) { return ''; } }
 function rango(ws) {
   ws = ws.slice().sort(function (a, b) { return a - b; });
   var out = [], i = 0;
   while (i < ws.length) { var j = i; while (j + 1 < ws.length && ws[j + 1] === ws[j] + 1) j++; out.push(j > i ? ws[i] + '–' + ws[j] : String(ws[i])); i = j + 1; }
   return (ws.length > 1 ? 'semanas ' : 'semana ') + out.join(', ');
+}
+function rangoL(ws) {   /* igual que rango() pero con los números de semana académica */
+  var ls2 = ws.slice().sort(function (a, b) { return a - b; }).map(semLabel), out = [], i = 0;
+  while (i < ls2.length) { var j = i; while (j + 1 < ls2.length && ls2[j + 1] === ls2[j] + 1) j++; out.push(j > i ? ls2[i] + '–' + ls2[j] : String(ls2[i])); i = j + 1; }
+  return (ls2.length > 1 ? 'semanas ' : 'semana ') + out.join(', ');
 }
 /** Agrupa las filas de un mismo aporte (mismo pago) para mostrarlas como una sola línea. */
 function pagos(eid, movs) {
@@ -417,7 +427,7 @@ function pagos(eid, movs) {
   return gs;
 }
 function pagoRow(g, undo) {
-  var det = (g.weeks.length ? rango(g.weeks) : 'aporte extra') + (g.weeks.length && g.extra ? ' · ' + cop(g.extra) + ' extra' : '');
+  var det = (g.weeks.length ? rangoL(g.weeks) : 'aporte extra') + (g.weeks.length && g.extra ? ' · ' + cop(g.extra) + ' extra' : '');
   return '<div class="mv"><div class="d"><b>Aporte Mano Amiga</b><small>' + fecha(g.t0) + ' · ' + det + '</small></div>' +
     '<div class="v cop" style="text-align:right">' + cop(g.total) + (g.blocks ? '<small class="blk">+' + g.blocks + ' ' + ICO + '</small>' : '') + '</div>' +
     (undo ? (g.tmp ? '<span style="color:var(--mut);font-size:12px;padding:6px 10px">Guardando…</span>' : '<button class="sec" style="padding:6px 10px;font-size:12px" data-a="undoPago" data-ids="' + esc(g.ids.join(',')) + '" data-v="' + g.total + '">Anular</button>') : '') + '</div>';
@@ -430,32 +440,33 @@ function historial(eid, movs, n, undo) {
   items.sort(function (a, b) { return b.t - a.t; });
   return items.length ? items.slice(0, n).map(function (x) { return x.h; }).join('') : '<p style="color:var(--mut);margin:0">Aún no hay movimientos.</p>';
 }
-/** Calendario de Mano Amiga por rachas de 4 semanas de clase, con las vacaciones aparte. */
+/** Calendario de Mano Amiga por rachas de 4 semanas de clase, con fechas y las vacaciones aparte. */
 function semanasHtml(s, sem) {
   var c = cfgA(); if (!c.inicio) return '';
-  var sc = sinClase(), bs = bloques(), maxW = sem, k, ini = 0, fin = 0;
+  var bs = bloques(), maxW = sem, k, ini = 0, fin = 0, bono = c.bonoRacha;
   for (k in s.semanas) if (+k > maxW && s.semanas[k] > 0) maxW = +k;
   bs.forEach(function (b, i) { if (b[b.length - 1] < sem) ini = i + 1; if (b[0] <= maxW) fin = i; });
   ini = Math.max(0, Math.min(ini, bs.length - 1) - 1); fin = Math.max(fin, Math.min(ini + 1, bs.length - 1));
   var h = '<div class="wk">';
   for (var i = ini; i <= fin; i++) {
     var b = bs[i], prev = i > 0 ? bs[i - 1][bs[i - 1].length - 1] : 0;
-    if (prev && b[0] - prev > 1 && i > ini) h += '<div class="wvac">Vacaciones · ' + fCorta(diaSem(prev + 1, 0)) + ' – ' + fCorta(diaSem(b[0] - 1, 4)) + '</div>';
-    var hechas = b.filter(function (w) { return s.semanas[w] > 0; }).length, listo = hechas === b.length, empezo = sem >= b[0];
-    var st = listo ? (empezo ? '<span class="ok">✓ Bono ganado</span>' : '<span class="ok">✓ Completa · bono el ' + fCorta(diaSem(b[0], 0)) + '</span>') : '<span>' + hechas + ' de ' + b.length + ' semanas</span>';
+    if (prev && b[0] - prev > 1 && i > ini) h += '<div class="wvac">Sin clase · ' + fCorta(diaSem(prev + 1, 0)) + ' – ' + fCorta(diaSem(b[0] - 1, 4)) + '</div>';
+    var hechas = b.filter(function (w) { return s.semanas[w] > 0; }).length, falta = b.length - hechas, empezo = sem >= b[0];
+    var st = !falta ? (empezo ? '<span class="ok">✓ Ganó +' + bono + '</span>' : '<span class="ok">✓ Completa · +' + bono + ' el ' + fCorta(diaSem(b[0], 0)) + '</span>')
+      : '<span>Le falta' + (falta > 1 ? 'n ' + falta + ' semanas' : ' 1 semana') + ' para +' + bono + '</span>';
     h += '<div class="wm"><div class="wh"><b>Racha ' + (i + 1) + ' <small>' + fCorta(diaSem(b[0], 0)) + ' – ' + fCorta(diaSem(b[b.length - 1], 4)) + '</small></b>' + st + '</div><div class="ws">' + b.map(function (w) {
       var cls = s.semanas[w] > 0 ? 'si' : w < sem ? 'falta' : 'fut';
-      return '<i class="' + cls + (w === sem ? ' cur' : '') + '" title="Semana ' + w + '">' + w + '</i>';
+      return '<i class="' + cls + (w === sem ? ' cur' : '') + '" title="Semana ' + semLabel(w) + ' · ' + fechasSem(w) + '">' + semLabel(w) + '</i>';
     }).join('') + '</div></div>';
   }
-  return h + '<p class="wl"><i class="si"></i> pagada <i class="falta"></i> falta pagar <i class="fut"></i> todavía no llega <i class="fut cur"></i> esta semana</p>' +
-    '<p class="wl" style="margin-top:2px">Cada ' + (c.rachaSem || 4) + ' semanas de clase pagadas = +' + c.bonoRacha + ' ' + un(c.bonoRacha) + ' de bono.</p></div>';
+  return h + '<div class="wl"><span><i class="si"></i>Pagada</span><span><i class="falta"></i>Ya pasó y no la pagó</span><span><i class="fut"></i>Aún no llega (se puede adelantar)</span><span><i class="fut cur"></i>Semana actual</span></div>' +
+    '<p class="wl2">Los números son las semanas académicas del colegio. Si paga las ' + (c.rachaSem || 4) + ' semanas de una racha, gana +' + bono + ' ' + un(bono) + ' de bono (cuando la racha ya empezó).</p></div>';
 }
 function aportesHtml(s, movs) {
   var gs = pagos(s.id, movs).reverse();
   if (!gs.length) return '<p style="color:var(--mut);margin:6px 0 0;font-size:14px">Aún no ha aportado.</p>';
   return '<div class="apl">' + gs.map(function (g) {
-    return '<div><span>' + fecha(g.t0) + '</span><b>' + cop(g.total) + '</b><small>' + (g.weeks.length ? rango(g.weeks) : 'aporte extra') + (g.weeks.length && g.extra ? ' + ' + cop(g.extra) + ' extra' : '') + '</small></div>';
+    return '<div><span>' + fecha(g.t0) + '</span><b>' + cop(g.total) + '</b><small>' + (g.weeks.length ? rangoL(g.weeks) : 'aporte extra') + (g.weeks.length && g.extra ? ' + ' + cop(g.extra) + ' extra' : '') + '</small></div>';
   }).join('') + '</div>';
 }
 function mvRow(m, undo) {
@@ -489,16 +500,19 @@ function vFicha() {
   if (!s) { S.cur = null; return vGrupo(); }
   var ya = s.semanas[T.sem] > 0;
   var gana = '', desc = '';
+  var mult = S.mult || 1;
   T.categorias.forEach(function (c, i) {
-    var b = '<button class="btn ' + (c.valor < 0 ? 'minus' : '') + '" data-a="' + (c.valor < 0 ? 'disc' : 'gain') + '" data-i="' + i + '"><span class="pt">' + sg(c.valor) + '</span>' + esc(c.nombre) + '</button>';
+    var v = c.valor > 0 ? c.valor * mult : c.valor;
+    var b = '<button class="btn ' + (c.valor < 0 ? 'minus' : '') + '" data-a="' + (c.valor < 0 ? 'disc' : 'gain') + '" data-i="' + i + '"><span class="pt">' + sg(v) + '</span>' + esc(c.nombre) + '</button>';
     if (c.valor < 0) desc += b; else gana += b;
   });
   return bankCard(s, T.sem) +
-    '<div class="card"><p class="h">Mano Amiga · semana ' + T.sem + '</p>' + semanasHtml(s, T.sem) + '<div class="grid">' +
+    '<div class="card"><p class="h">Mano Amiga · semana ' + semLabel(T.sem) + '</p>' + semanasHtml(s, T.sem) + '<div class="grid">' +
     '<button class="btn ma ' + (ya ? 'done' : '') + '" data-a="aporte" data-v="' + T.cfg.aporte + '"><span class="pt">' + (ya ? '✓' : '+') + '</span>' + (ya ? 'Ya aportó ' + cop(s.semanas[T.sem]) : 'Aportó ' + cop(T.cfg.aporte)) + '</button>' +
     '<button class="btn ma" data-a="aporteOtro"><span class="pt">$</span>Otro monto</button></div>' +
     '<p class="h" style="margin:16px 0 4px">Aportes · total ' + cop(s.aporteTotal) + '</p>' + aportesHtml(s, T.movs) + '</div>' +
-    '<div class="card"><p class="h">Ganar ' + esc(mon()) + '</p><div class="grid">' + gana +
+    '<div class="card"><div class="row" style="justify-content:space-between;margin-bottom:10px"><p class="h" style="margin:0">Ganar ' + esc(mon()) + '</p><div class="mx">' +
+    [1, 2, 3].map(function (m) { return '<button class="' + (m === mult ? 'on' : '') + '" data-a="mult" data-m="' + m + '">×' + m + '</button>'; }).join('') + '</div></div><div class="grid">' + gana +
     '<button class="btn" data-a="libre"><span class="pt">✎</span>Otro (registro libre)</button></div></div>' +
     '<div class="card"><p class="h">Canjear y descontar</p><div class="grid"><button class="btn" data-a="canje"><span class="pt">🎁</span>Canjear premio</button>' + desc + '</div></div>' +
     '<div class="card"><p class="h">Últimos movimientos</p>' + historial(s.id, T.movs, 10, true) + '</div>';
@@ -518,13 +532,13 @@ function vLote() {
   var T = S.T, n = Object.keys(S.sel).length;
   if (!n) return '';
   return '<div class="lote"><select id="lote-cat">' + T.categorias.map(function (c, i) { return '<option value="' + i + '">' + sg(c.valor) + ' · ' + esc(c.nombre) + '</option>'; }).join('') +
-    '</select><button data-a="lote">Aplicar a ' + n + '</button></div>';
+    '</select><select id="lote-x" style="flex:none;width:auto"><option value="1">×1</option><option value="2">×2</option><option value="3">×3</option></select><button data-a="lote">Aplicar a ' + n + '</button></div>';
 }
 function vMano() {
   var T = S.T, w = S.maSem || T.sem, on = ls('bv_ma') === '1', tot = 0, c = 0;
   T.estudiantes.forEach(function (s) { if (s.semanas[w] > 0) { tot += s.semanas[w]; c++; } });
   var h = '<div class="card"><div class="tog"><button class="sw ' + (on ? 'on' : '') + '" data-a="maMode" aria-label="Modo rápido"></button><div><b>Modo rápido</b><br><small style="color:var(--mut)">Cada tarjeta que acerques registra ' + cop(T.cfg.aporte) + ' de la semana actual, sin tocar nada más.</small></div></div></div>' +
-    '<div class="card"><div class="row" style="justify-content:space-between"><button class="sec" data-a="maWeek" data-d="-1">‹</button><div style="text-align:center"><b style="font-size:18px">Semana ' + w + '</b><br><small style="color:var(--mut)">' + c + ' de ' + T.estudiantes.length + ' aportaron · ' + cop(tot) + '</small></div><button class="sec" data-a="maWeek" data-d="1">›</button></div></div><div class="list">';
+    '<div class="card"><div class="row" style="justify-content:space-between"><button class="sec" data-a="maWeek" data-d="-1">‹</button><div style="text-align:center"><b style="font-size:18px">Semana ' + semLabel(w) + '</b><br><small style="color:var(--mut)">' + fechasSem(w) + '</small><br><small style="color:var(--mut)">' + c + ' de ' + T.estudiantes.length + ' aportaron · ' + cop(tot) + '</small></div><button class="sec" data-a="maWeek" data-d="1">›</button></div></div><div class="list">';
   T.estudiantes.forEach(function (s, i) {
     var v = s.semanas[w] || 0;
     h += '<div class="st" style="padding:6px 6px 6px 12px"><button class="n" data-a="open" data-id="' + s.id + '"><i class="nl">' + (i + 1) + '</i>' + avatar(s) + esc(s.nombre) + '</button>' +
@@ -538,15 +552,16 @@ function vMas() {
   var h = '<div class="card"><p class="h">Reporte Mano Amiga</p><div class="tblw"><table><tr><th>Estudiante</th>';
   var tots = [], w, W = T.sem;
   T.estudiantes.forEach(function (s) { for (var k in s.semanas) if (+k > W) W = +k; });
-  for (w = 1; w <= W; w++) { h += '<th>S' + w + '</th>'; tots[w] = 0; }
+  var scR = sinClase();
+  for (w = 1; w <= W; w++) { tots[w] = 0; if (!scR[w]) h += '<th>S' + semLabel(w) + '</th>'; }
   h += '<th>Total</th></tr>';
   T.estudiantes.forEach(function (s, i) {
     h += '<tr><td><i class="nl">' + (i + 1) + '</i>' + esc(s.corto) + '</td>';
-    for (var w = 1; w <= W; w++) { var v = s.semanas[w] || 0; tots[w] += v; h += v ? '<td class="y">' + (v / 1000) + 'k</td>' : '<td class="n">·</td>'; }
+    for (var w = 1; w <= W; w++) { if (scR[w]) continue; var v = s.semanas[w] || 0; tots[w] += v; h += v ? '<td class="y">' + (v / 1000) + 'k</td>' : '<td class="n">·</td>'; }
     h += '<td><b>' + cop(s.aporteTotal) + '</b></td></tr>';
   });
   h += '<tr><td><b>Total</b></td>';
-  for (w = 1; w <= W; w++) h += '<td><b>' + (tots[w] / 1000) + 'k</b></td>';
+  for (w = 1; w <= W; w++) if (!scR[w]) h += '<td><b>' + (tots[w] / 1000) + 'k</b></td>';
   h += '<td><b>' + cop(T.totalMA) + '</b></td></tr></table></div></div>';
   h += '<div class="card"><p class="h">Tarjetas (enlaces para grabar con NFC Tools)</p>';
   T.estudiantes.forEach(function (s, i) {
@@ -778,7 +793,7 @@ function doAporte(id, valor, w, forzar) {
   if (!(valor > 0)) { toast('El monto debe ser mayor que cero.'); return; }
   var ya = s.semanas[w] || 0;
   if (ya > 0 && !forzar) {
-    ask('Ya aportó en la semana ' + w, s.nombre + ' ya tiene ' + cop(ya) + ' registrados esa semana. ¿Sumar otro aporte de ' + cop(valor) + '?', 'Sí, sumar', function () { doAporte(id, valor, w, true); });
+    ask('Ya aportó en la semana ' + semLabel(w), s.nombre + ' ya tiene ' + cop(ya) + ' registrados esa semana. ¿Sumar otro aporte de ' + cop(valor) + '?', 'Sí, sumar', function () { doAporte(id, valor, w, true); });
     return;
   }
   var pago = Date.now().toString(36);
@@ -810,7 +825,7 @@ function planAporte(s, total, w) {
 function textoPlan(plan) {
   var ws = plan.filter(function (e) { return !e.extra; }), ex = plan.filter(function (e) { return e.extra; })[0];
   var b = ws.length * (S.T.cfg.puntosAporte || 0);
-  return (ws.length ? 'cubre ' + rango(ws.map(function (e) { return e.w; })) + (b ? ' (+' + b + ' ' + un(b) + ')' : '') : '') +
+  return (ws.length ? 'cubre ' + rangoL(ws.map(function (e) { return e.w; })) + (b ? ' (+' + b + ' ' + un(b) + ')' : '') : '') +
     (ex ? (ws.length ? ' y ' : '') + cop(ex.v) + ' como aporte extra (sin block' + (ws.length ? '; solo se adelantan hasta 4 semanas' : '') + ')' : '') + '.';
 }
 function doPlan(id, plan) {
@@ -860,9 +875,11 @@ var A = {
   open: function (d) { S.cur = d.id; render(); window.scrollTo(0, 0); },
   back: function () { scanStop(); S.cur = null; S.tab = 'grupo'; render(); },
   gain: function (d) {
-    var c = S.T.categorias[+d.i], s = est(S.cur);
-    registrarL([S.cur], c.nombre, c.valor, '', false, s.corto + ': ' + sg(c.valor) + ' ' + un(sg(c.valor)) + ' · ' + c.nombre);
+    var c = S.T.categorias[+d.i], s = est(S.cur), v = c.valor * (S.mult || 1);
+    S.mult = 1;
+    registrarL([S.cur], c.nombre, v, '', false, s.corto + ': ' + sg(v) + ' ' + un(v) + ' · ' + c.nombre);
   },
+  mult: function (d) { S.mult = +d.m; render(); },
   disc: function (d) {
     var c = S.T.categorias[+d.i], s = est(S.cur), id = S.cur;
     ask('Descontar ' + Math.abs(c.valor) + ' ' + un(Math.abs(c.valor)) + '', s.nombre + ' · ' + c.nombre, 'Descontar', function () {
@@ -889,7 +906,7 @@ var A = {
     modal('<h2>' + (extra ? 'Aporte extra' : 'Aporte a Mano Amiga') + '</h2><p style="margin:-4px 0 14px;color:var(--mut)">' + esc(s.nombre) + (extra ? ' · ya aportó esta semana. Lo que traiga cubre semanas pendientes o adelanta las siguientes.' : '') + '</p>' +
       '<label>Monto (COP)<input id="ao-v" type="number" inputmode="numeric" min="1000" step="1000" value="' + S.T.cfg.aporte + '"></label>' +
       '<div class="step"><button data-a="aoStep" data-d="-1000">−</button><b id="ao-b">' + cop(S.T.cfg.aporte) + '</b><button data-a="aoStep" data-d="1000">+</button></div>' +
-      '<label>Semana<input id="ao-w" type="number" inputmode="numeric" min="1" step="1" value="' + w + '"></label>' +
+      '<label>Semana académica<input id="ao-w" type="number" inputmode="numeric" min="1" step="1" value="' + semLabel(w) + '"></label>' +
       '<p id="ao-plan" style="margin:0 0 14px;font-size:14px;color:var(--mut);line-height:1.4"></p>' +
       '<button class="pri" data-a="aoSave">Registrar</button><button class="sec" style="width:100%;margin-top:8px" data-a="close">Cancelar</button>');
     $('ao-v').addEventListener('input', function () { $('ao-b').textContent = cop(+$('ao-v').value || 0); A.aoPlan(); });
@@ -898,7 +915,7 @@ var A = {
   },
   aoPlan: function () {
     var a = S.ao, p = $('ao-plan'); if (!a || !p) return;
-    var v = +$('ao-v').value || 0, w = Math.max(1, +$('ao-w').value || S.T.sem);
+    var v = +$('ao-v').value || 0, w = semDeLabel($('ao-w').value) || S.T.sem;
     p.textContent = v > 0 ? 'Se registrará: ' + textoPlan(planAporte(est(a.id), v, w)) : '';
   },
   aoStep: function (d) {
@@ -906,7 +923,7 @@ var A = {
     v = Math.max(1000, v); i.value = v; $('ao-b').textContent = cop(v); A.aoPlan();
   },
   aoSave: function () {
-    var a = S.ao || { id: S.cur }, v = Math.round(+$('ao-v').value || 0), w = Math.max(1, +$('ao-w').value || S.T.sem);
+    var a = S.ao || { id: S.cur }, v = Math.round(+$('ao-v').value || 0), w = semDeLabel($('ao-w').value) || S.T.sem;
     if (!(v > 0)) { toast('El monto debe ser mayor que cero.'); return; }
     doPlan(a.id, planAporte(est(a.id), v, w));
   },
@@ -949,14 +966,14 @@ var A = {
     render();
   },
   lote: function () {
-    var c = S.T.categorias[+$('lote-cat').value], ids = Object.keys(S.sel), go = function () {
+    var c = S.T.categorias[+$('lote-cat').value], ids = Object.keys(S.sel), v = c.valor > 0 ? c.valor * (+$('lote-x').value || 1) : c.valor, go = function () {
       S.sel = {};
-      registrarL(ids, c.nombre, c.valor, '', false, sg(c.valor) + ' ' + un(sg(c.valor)) + ' a ' + ids.length + ' estudiantes · ' + c.nombre);
+      registrarL(ids, c.nombre, v, '', false, sg(v) + ' ' + un(v) + ' a ' + ids.length + ' estudiantes · ' + c.nombre);
     };
     if (c.valor < 0) ask('Descontar a ' + ids.length + ' estudiantes', c.nombre + ' (' + c.valor + ' ' + un(c.valor) + ' a cada uno)', 'Descontar', go); else go();
   },
   maMode: function () { ls('bv_ma', ls('bv_ma') === '1' ? null : '1'); render(); },
-  maWeek: function (d) { var w = (S.maSem || S.T.sem) + (+d.d); S.maSem = Math.max(1, Math.min(S.T.sem, w)); render(); },
+  maWeek: function (d) { var sc = sinClase(), w = (S.maSem || S.T.sem) + (+d.d); while (sc[w] && w > 1) w += (+d.d); S.maSem = Math.max(1, Math.min(S.T.sem, w)); render(); },
   hide: function () { S.hide = !S.hide; render(); },
   fs: function () { var e = document.documentElement; if (document.fullscreenElement) document.exitFullscreen(); else if (e.requestFullscreen) e.requestFullscreen().catch(function () {}); },
   copy: function (d) {
