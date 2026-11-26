@@ -43,6 +43,13 @@ button{cursor:pointer;border:0;background:none}
 .ws i.si,.wl i.si{background:#e3f6e8;color:var(--ok)}.ws i.falta,.wl i.falta{background:#fdecec;color:#c0392b}.ws i.vac,.wl i.vac{background:repeating-linear-gradient(45deg,#f1f1f1 0 4px,#e2e2e2 4px 8px);color:#999}.ws i.cur,.wl i.cur{border-color:var(--navy)}
 .wl{margin:6px 0 0;font-size:12px;color:var(--mut);display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px}.wl i{width:20px;height:20px;font-size:11px;border-radius:6px;border-width:1.5px}
 .apl div{display:grid;grid-template-columns:64px auto 1fr;gap:4px 10px;align-items:baseline;padding:7px 0;border-top:1px solid var(--line);font-size:14px}.apl div:first-child{border-top:0}.apl span{color:var(--mut);font-size:13px}.apl small{color:var(--mut);font-size:13px;text-align:right}
+.wh b small{font-weight:500;color:var(--mut);font-size:12px;margin-left:4px}.wvac{margin:0 0 10px;padding:8px 10px;border-radius:9px;font-size:13px;color:#777;background:repeating-linear-gradient(45deg,#f4f4f4 0 6px,#ececec 6px 12px)}
+.st .n{display:flex;align-items:center}.st .av,.list .av{width:34px;height:34px;border-radius:8px;object-fit:cover;flex:none;margin-right:10px}.st i.av{display:inline-flex;align-items:center;justify-content:center;background:#e6e8ee;color:#6b7080;font-style:normal;font-weight:700;font-size:15px}
+.av.gold{outline:3px solid #f5c518;outline-offset:1px;box-shadow:0 0 10px 2px rgba(245,197,24,.75)}
+.tv .kid.gold{background:linear-gradient(135deg,rgba(120,84,0,.95),rgba(60,40,0,.92));border-color:#fff3a8 #f5c518 #f5c518 #fff3a8;box-shadow:0 0 1.2vw .2vw rgba(255,215,64,.85);animation:oro 2.4s ease-in-out infinite}
+.tv .kid.gold{position:relative}.tv .kid.gold:after{content:'★';position:absolute;right:.5vw;top:.1vw;color:#ffe066;font-size:1.7vw;text-shadow:0 0 .6vw #ffbf00}
+.tv .kid.gold .avw .av{outline:.25vw solid #ffd84a;outline-offset:0;box-shadow:0 0 1vw rgba(255,216,74,.9)}
+@keyframes oro{0%,100%{box-shadow:0 0 .8vw .1vw rgba(255,215,64,.6)}50%{box-shadow:0 0 1.8vw .4vw rgba(255,215,64,1)}}
 .v small.blk{display:block;font-size:12px;color:var(--ok);font-weight:700}
 .ksum{display:flex;gap:12px;align-items:center;margin-bottom:12px}.ksum .av{width:64px;height:64px;border-radius:12px;object-fit:cover;flex:none}.ksum i.av{display:flex;align-items:center;justify-content:center;background:#3a3b4d;color:#fff;font-style:normal;font-size:28px;font-weight:700}
 .tv .kid{cursor:pointer}
@@ -245,8 +252,8 @@ var $ = function (id) { return document.getElementById(id); };
 var BASE_IMG = window.BV_ARTE ? window.BV_ARTE.replace(/arte-$/, '') : (window.BV_STATIC ? '' : 'https://darioocampo97-lang.github.io/banco-valores/');
 var ICO = '<img class="ic" src="' + BASE_IMG + 'bloque.png" alt="">';
 function avatar(s) {
-  var a = typeof ART_DE !== 'undefined' && ART_DE[s.id];
-  return a ? '<img class="av" src="' + BASE_IMG + 'av-' + a + '.jpg" alt="">' : '<i class="av">' + esc(String(s.corto || s.nombre || '?').charAt(0)) + '</i>';
+  var a = typeof ART_DE !== 'undefined' && ART_DE[s.id], g = s.marco > Date.now() ? ' gold' : '';
+  return a ? '<img class="av' + g + '" src="' + BASE_IMG + 'av-' + a + '.jpg" alt="">' : '<i class="av' + g + '">' + esc(String(s.corto || s.nombre || '?').charAt(0)) + '</i>';
 }
 function un(n) { return Math.abs(parseInt(n, 10)) === 1 ? 'block' : 'blocks'; }
 
@@ -378,10 +385,12 @@ function metaCard(m) {
     '<div class="bar"><i style="width:' + pct + '%"></i></div><p style="margin:10px 0 0;color:var(--mut);font-size:14px">Premio: ' + esc(m.premio) + '</p></div>';
 }
 /* ───────── Mano Amiga: aportes agrupados y calendario de semanas ───────── */
-var MESES = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 function cfgA() { return (S.T || S.pub).cfg; }
 function sinClase() { var o = {}; (cfgA().sinClase || []).forEach(function (k) { o[k] = true; }); return o; }
-function mesSem(k) { var c = cfgA(); if (!c.inicio) return ''; var d = new Date(c.inicio + (k - 1) * 6048e5 + 3 * 864e5); return d.getFullYear() * 100 + d.getMonth(); }
+/** Bloques de racha: semanas de clase de N en N; las vacaciones se saltan (igual que en el servidor). */
+function bloques() { var n = cfgA().rachaSem || 4, sc = sinClase(), out = [], cur = []; for (var k = 1; k <= 80; k++) { if (sc[k]) continue; cur.push(k); if (cur.length === n) { out.push(cur); cur = []; } } return out; }
+function diaSem(k, d) { return new Date(cfgA().inicio + (k - 1) * 6048e5 + d * 864e5); }
+function fCorta(dt) { try { return dt.toLocaleDateString('es-CO', { day: 'numeric', month: 'short' }); } catch (e) { return ''; } }
 function rango(ws) {
   ws = ws.slice().sort(function (a, b) { return a - b; });
   var out = [], i = 0;
@@ -421,23 +430,26 @@ function historial(eid, movs, n, undo) {
   items.sort(function (a, b) { return b.t - a.t; });
   return items.length ? items.slice(0, n).map(function (x) { return x.h; }).join('') : '<p style="color:var(--mut);margin:0">Aún no hay movimientos.</p>';
 }
-/** Calendario de semanas por mes: qué semanas están cubiertas y si el mes ya está completo. */
+/** Calendario de Mano Amiga por rachas de 4 semanas de clase, con las vacaciones aparte. */
 function semanasHtml(s, sem) {
-  var sc = sinClase(), c = cfgA(), maxW = sem + 4, k, meses = [], porMes = {};
-  if (!c.inicio) return '';
+  var c = cfgA(); if (!c.inicio) return '';
+  var sc = sinClase(), bs = bloques(), maxW = sem, k, ini = 0, fin = 0;
   for (k in s.semanas) if (+k > maxW && s.semanas[k] > 0) maxW = +k;
-  var mesHoy = (function () { var d = new Date(); return d.getFullYear() * 100 + d.getMonth(); })();
-  for (k = 1; k <= maxW; k++) { var mk = mesSem(k); if (!porMes[mk]) { porMes[mk] = []; meses.push(mk); } porMes[mk].push(k); }
-  return '<div class="wk">' + meses.map(function (mk) {
-    var ws = porMes[mk], clase = ws.filter(function (w) { return !sc[w]; });
-    var listo = clase.length && clase.every(function (w) { return s.semanas[w] > 0; });
-    var hechas = clase.filter(function (w) { return s.semanas[w] > 0; }).length;
-    var badge = listo ? (mk <= mesHoy ? '<span class="ok">✓ Mes completo</span>' : '<span class="ok">✓ Cubierto · bono al empezar el mes</span>') : '<span>' + hechas + ' de ' + clase.length + ' semanas</span>';
-    return '<div class="wm"><div class="wh"><b>' + MESES[mk % 100] + '</b>' + badge + '</div><div class="ws">' + ws.map(function (w) {
-      var cls = sc[w] ? 'vac' : s.semanas[w] > 0 ? 'si' : w < sem ? 'falta' : 'fut';
-      return '<i class="' + cls + (w === sem ? ' cur' : '') + '" title="Semana ' + w + '">' + (sc[w] ? '–' : w) + '</i>';
+  bs.forEach(function (b, i) { if (b[b.length - 1] < sem) ini = i + 1; if (b[0] <= maxW) fin = i; });
+  ini = Math.max(0, Math.min(ini, bs.length - 1) - 1); fin = Math.max(fin, Math.min(ini + 1, bs.length - 1));
+  var h = '<div class="wk">';
+  for (var i = ini; i <= fin; i++) {
+    var b = bs[i], prev = i > 0 ? bs[i - 1][bs[i - 1].length - 1] : 0;
+    if (prev && b[0] - prev > 1 && i > ini) h += '<div class="wvac">Vacaciones · ' + fCorta(diaSem(prev + 1, 0)) + ' – ' + fCorta(diaSem(b[0] - 1, 4)) + '</div>';
+    var hechas = b.filter(function (w) { return s.semanas[w] > 0; }).length, listo = hechas === b.length, empezo = sem >= b[0];
+    var st = listo ? (empezo ? '<span class="ok">✓ Bono ganado</span>' : '<span class="ok">✓ Completa · bono el ' + fCorta(diaSem(b[0], 0)) + '</span>') : '<span>' + hechas + ' de ' + b.length + ' semanas</span>';
+    h += '<div class="wm"><div class="wh"><b>Racha ' + (i + 1) + ' <small>' + fCorta(diaSem(b[0], 0)) + ' – ' + fCorta(diaSem(b[b.length - 1], 4)) + '</small></b>' + st + '</div><div class="ws">' + b.map(function (w) {
+      var cls = s.semanas[w] > 0 ? 'si' : w < sem ? 'falta' : 'fut';
+      return '<i class="' + cls + (w === sem ? ' cur' : '') + '" title="Semana ' + w + '">' + w + '</i>';
     }).join('') + '</div></div>';
-  }).join('') + '<p class="wl">Semanas: <i class="si">1</i> pagada <i class="falta">2</i> pendiente <i class="fut">5</i> por venir <i class="fut cur">3</i> esta semana' + (Object.keys(sc).length ? ' <i class="vac">–</i> sin clase' : '') + '</p></div>';
+  }
+  return h + '<p class="wl"><i class="si"></i> pagada <i class="falta"></i> falta pagar <i class="fut"></i> todavía no llega <i class="fut cur"></i> esta semana</p>' +
+    '<p class="wl" style="margin-top:2px">Cada ' + (c.rachaSem || 4) + ' semanas de clase pagadas = +' + c.bonoRacha + ' ' + un(c.bonoRacha) + ' de bono.</p></div>';
 }
 function aportesHtml(s, movs) {
   var gs = pagos(s.id, movs).reverse();
@@ -497,7 +509,7 @@ function vGrupo() {
     '<button class="sec" style="padding:8px 12px;font-size:13px" data-a="selAll">' + (n === T.estudiantes.length ? 'Quitar selección' : 'Seleccionar todos') + '</button></div><div class="list">';
   T.estudiantes.forEach(function (s, i) {
     h += '<div class="st ' + (S.sel[s.id] ? 'sel' : '') + '"><button class="ck" data-a="sel" data-id="' + s.id + '" aria-label="Seleccionar">✓</button>' +
-      '<button class="n" data-a="open" data-id="' + s.id + '"><i class="nl">' + (i + 1) + '</i>' + esc(s.nombre) + '</button><span class="s">' + s.saldo + ' ' + ICO + '</span></div>';
+      '<button class="n" data-a="open" data-id="' + s.id + '"><i class="nl">' + (i + 1) + '</i>' + avatar(s) + esc(s.nombre) + '</button><span class="s">' + s.saldo + ' ' + ICO + '</span></div>';
   });
   h += '</div><p class="note">Toca un nombre para abrir su ficha, o marca varios para darles ' + esc(mon()) + ' a la vez.</p>';
   return h;
@@ -515,7 +527,7 @@ function vMano() {
     '<div class="card"><div class="row" style="justify-content:space-between"><button class="sec" data-a="maWeek" data-d="-1">‹</button><div style="text-align:center"><b style="font-size:18px">Semana ' + w + '</b><br><small style="color:var(--mut)">' + c + ' de ' + T.estudiantes.length + ' aportaron · ' + cop(tot) + '</small></div><button class="sec" data-a="maWeek" data-d="1">›</button></div></div><div class="list">';
   T.estudiantes.forEach(function (s, i) {
     var v = s.semanas[w] || 0;
-    h += '<div class="st" style="padding:6px 6px 6px 12px"><button class="n" data-a="open" data-id="' + s.id + '"><i class="nl">' + (i + 1) + '</i>' + esc(s.nombre) + '</button>' +
+    h += '<div class="st" style="padding:6px 6px 6px 12px"><button class="n" data-a="open" data-id="' + s.id + '"><i class="nl">' + (i + 1) + '</i>' + avatar(s) + esc(s.nombre) + '</button>' +
       (v ? '<span class="s" style="color:var(--ok);padding-right:6px">✓ ' + cop(v) + '</span><button class="sec" style="padding:9px 12px;font-size:14px" data-a="aporteOtro" data-id="' + s.id + '" data-extra="1" aria-label="Sumar otro aporte">+</button>'
          : '<button class="sec" style="padding:9px 10px;font-size:14px" data-a="aporteL" data-id="' + s.id + '">+ ' + cop(T.cfg.aporte) + '</button><button class="sec" style="padding:9px 10px;font-size:14px" data-a="aporteOtro" data-id="' + s.id + '">Otro</button>') + '</div>';
   });
@@ -567,7 +579,7 @@ function vTablero() {
     '<div class="fr">' + (p >= 1 ? 'Goal reached! 🎉' : 'Team goal') + '</div><div class="es">Meta del grupo: ' + esc(m.premio) + '</div></div>' +
     '<div class="kids"><div class="fr">Our blocks<small>Nuestros bloques</small></div><div class="kg">';
   T.estudiantes.forEach(function (s, i) {
-    h += '<div class="kid ' + (max > 0 && s.ganadasSemana === max ? 'hot' : '') + '" data-a="kidSum" data-id="' + s.id + '" role="button"><span class="avw">' + avatar(s) + '<i class="nl">' + (i + 1) + '</i></span><div class="kn"><b>' + esc(s.corto) + '</b>' + (S.hide ? '' : '<span>' + s.saldo + ' ' + ICO + '</span>') + '</div></div>';
+    h += '<div class="kid ' + (max > 0 && s.ganadasSemana === max ? 'hot' : '') + (s.marco > Date.now() ? ' gold' : '') + '" data-a="kidSum" data-id="' + s.id + '" role="button"><span class="avw">' + avatar(s) + '<i class="nl">' + (i + 1) + '</i></span><div class="kn"><b>' + esc(s.corto) + '</b>' + (S.hide ? '' : '<span>' + s.saldo + ' ' + ICO + '</span>') + '</div></div>';
   });
   h += '</div></div><div class="bot"><div>Mano Amiga: ' + cop(T.totalMA) + '<small>Esta semana aportaron ' + c + ' de ' + T.estudiantes.length + '</small></div>' +
     '<div class="rec">' + ICO + ' <span id="rec">' + esc(r.length ? r[S.recI % r.length] : 'Great job, 4AM!') + '</span><small>Great job! · Reconocimientos de la semana</small></div></div></div>';
@@ -785,9 +797,10 @@ function doAporte(id, valor, w, forzar) {
 function planAporte(s, total, w) {
   var a = S.T.cfg.aporte, rem = Math.round(total), plan = [], k, sc = sinClase();
   function libre(k) { return !sc[k] && !(s.semanas[k] > 0) && !plan.some(function (e) { return e.w === k; }); }
-  for (k = Math.max(1, w - 3); k < w; k++) if (rem >= a && libre(k)) { plan.push({ w: k, v: a, tipo: 'pendiente' }); rem -= a; }
+  var atras = []; for (k = w - 1; k >= 1 && atras.length < 3; k--) if (!sc[k]) atras.unshift(k);
+  atras.forEach(function (k) { if (rem >= a && libre(k)) { plan.push({ w: k, v: a, tipo: 'pendiente' }); rem -= a; } });
   if (rem >= a && libre(w)) { plan.push({ w: w, v: a, tipo: 'esta semana' }); rem -= a; }
-  for (k = w + 1; k <= w + 4 && rem >= a; k++) if (libre(k)) { plan.push({ w: k, v: a, tipo: 'adelantada' }); rem -= a; }
+  for (var adel = 0, k = w + 1; adel < 4 && rem >= a && k < w + 60; k++) { if (sc[k]) continue; adel++; if (libre(k)) { plan.push({ w: k, v: a, tipo: 'adelantada' }); rem -= a; } }
   if (rem > 0) {
     if (libre(w)) plan.push({ w: w, v: rem, tipo: 'esta semana' });          // monto menor a lo sugerido: cubre la semana actual
     else plan.push({ w: w, v: rem, tipo: 'extra', extra: true });           // lo que sobra es aporte extra, sin block
@@ -899,13 +912,14 @@ var A = {
   },
   canje: function () {
     var s = est(S.cur);
-    modal('<h2>Canjear premio · ' + s.saldo + ' ' + ICO + '</h2>' + S.T.premios.map(function (p, i) {
+    modal('<h2>Canjear premio · ' + s.saldo + ' ' + ICO + '</h2>' + S.T.premios.map(function (p, i) { return i; }).sort(function (x, y) { return S.T.premios[x].costo - S.T.premios[y].costo; }).map(function (i) { var p = S.T.premios[i];
       return '<button class="btn" style="width:100%;margin-bottom:8px;' + (s.saldo < p.costo ? 'opacity:.4' : '') + '" ' + (s.saldo < p.costo ? 'disabled' : 'data-a="canjeOk" data-i="' + i + '"') + '><span class="pt">' + p.costo + '</span>' + esc(p.nombre) + '</button>';
     }).join('') + '<button class="sec" style="width:100%" data-a="close">Cancelar</button>');
   },
   canjeOk: function (d) {
     var p = S.T.premios[+d.i], s = est(S.cur);
     if (s.saldo < p.costo) return;
+    if (/marco dorado/i.test(p.nombre)) s.marco = Date.now() + 7 * 864e5;
     var m = addMovL(s, 'PUNTOS', p.nombre, -p.costo, ''), msg = s.corto + ' canjeó: ' + p.nombre + ' (−' + p.costo + ' ' + un(p.costo) + ')';
     modal(null); render(); toast(msg);
     bg('canjear', { id: s.id, premio: p.nombre }, function (r) { setIds([m], r.ids); toastIds(msg, msg, r.ids); render(); });
